@@ -1,59 +1,77 @@
-// Backend/controllers/nexusController.js
-const nexusModel = require('../models/nexusModel');
+import { 
+  createNexus as createNexusModel,
+  getMyNexus as getMyNexusModel,
+  getPublicNexus as getPublicNexusModel,
+  getNexusById as getNexusByIdModel,
+  updateNexus as updateNexusModel,
+  deleteNexus as deleteNexusModel,
+  addMember
+} from "../models/nexusModel.js";
 
-async function createNexus(req, res, next) {
+
+export const createNexus = async(req, res, next)=> {
   try {
     const { name, type, icon, description, is_public } = req.body;
-    const createdBy = req.user.id; // from auth middleware
-    const nexus = await nexusModel.createNexus({ name, type, icon, description, created_by: createdBy, is_public });
-    // add creator as owner
-    await nexusModel.addMember(nexus.id, createdBy, 'owner');
+    const createdBy = req.user.id;
+
+    const nexus = await createNexusModel({
+      name,
+      type,
+      icon,
+      description,
+      created_by: createdBy,
+      is_public
+    });
+
+    await addMember(nexus.id, createdBy, 'owner');
+
     res.status(201).json({ success: true, data: nexus });
-  } catch (err) { next(err); }
-}
 
-async function getMyNexus(req, res, next) {
+  } catch (err) { next(err); }
+};
+
+
+export const getMyNexus = async(req, res, next)=> {
   try {
-    const userId = req.user.id;
-    const list = await nexusModel.getMyNexus(userId);
+    const list = await getMyNexusModel(req.user.id);
     res.json({ success: true, data: list });
   } catch (err) { next(err); }
-}
+};
 
-async function getPublicNexus(req, res, next) {
+
+export const getPublicNexus = async(req, res, next)=> {
   try {
-    const list = await nexusModel.getPublicNexus();
+    const list = await getPublicNexusModel();
     res.json({ success: true, data: list });
   } catch (err) { next(err); }
-}
+};
 
-async function getNexusById(req, res, next) {
+
+export const getNexusById = async(req, res, next)=> {
   try {
     const { id } = req.params;
-    const nexus = await nexusModel.getNexusById(id);
-    if (!nexus) return res.status(404).json({ success:false, message:'Nexus not found' });
+    const nexus = await getNexusByIdModel(id);
+
+    if (!nexus)
+      return res.status(404).json({ success:false, message:'Nexus not found' });
+
     res.json({ success:true, data: nexus });
-  } catch (err) { next(err); }
-}
 
-async function updateNexus(req, res, next) {
+  } catch (err) { next(err); }
+};
+
+
+export const updateNexus = async(req, res, next)=> {
   try {
-    const { id } = req.params;
-    // authorization: ensure user is owner or has permission — minimal check placeholder
-    const fields = req.body;
-    const updated = await nexusModel.updateNexus(id, fields);
+    const updated = await updateNexusModel(req.params.id, req.body);
     res.json({ success:true, data: updated });
   } catch (err) { next(err); }
-}
+};
 
-async function deleteNexus(req, res, next) {
+
+export const deleteNexus = async(req, res, next)=> {
   try {
-    const { id } = req.params;
-    await nexusModel.deleteNexus(id);
+    await deleteNexusModel(req.params.id);
     res.json({ success:true, message:'Deleted' });
   } catch (err) { next(err); }
-}
-
-module.exports = {
-  createNexus, getMyNexus, getPublicNexus, getNexusById, updateNexus, deleteNexus
 };

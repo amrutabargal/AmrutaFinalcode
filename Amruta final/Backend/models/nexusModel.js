@@ -1,6 +1,6 @@
-const pool = require('../config/db'); // adjust if you export differently
+import pool from '../config/db.js'; 
 
-async function createNexus({ name, type, icon, description, created_by, is_public }) {
+export const createNexus = async({ name, type, icon, description, created_by, is_public })=> {
   const q = `INSERT INTO nexus (name, type, icon, description, created_by, is_public)
              VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`;
   const values = [name, type, icon, description, created_by, is_public ?? false];
@@ -8,12 +8,12 @@ async function createNexus({ name, type, icon, description, created_by, is_publi
   return rows[0];
 }
 
-async function getNexusById(id) {
+export const getNexusById = async(id)=> {
   const { rows } = await pool.query('SELECT * FROM nexus WHERE id=$1', [id]);
   return rows[0];
 }
 
-async function getMyNexus(userId) {
+export const getMyNexus = async(userId)=> {
   const q = `
     SELECT n.*
     FROM nexus n
@@ -25,12 +25,12 @@ async function getMyNexus(userId) {
   return rows;
 }
 
-async function getPublicNexus() {
+export const getPublicNexus = async()=> {
   const { rows } = await pool.query('SELECT * FROM nexus WHERE is_public=true ORDER BY created_at DESC');
   return rows;
 }
 
-async function updateNexus(id, fields = {}) {
+export const updateNexus = async(id, fields = {})=> {
   // build set clause dynamically
   const keys = Object.keys(fields);
   if (!keys.length) return getNexusById(id);
@@ -42,23 +42,14 @@ async function updateNexus(id, fields = {}) {
   return rows[0];
 }
 
-async function deleteNexus(id) {
+export const deleteNexus = async(id) =>{
   await pool.query('DELETE FROM nexus WHERE id=$1', [id]);
   return;
 }
 
-async function addMember(nexusId, userId, role='owner') {
+export const addMember = async(nexusId, userId, role='owner')=> {
   const q = `INSERT INTO nexus_members (nexus_id, user_id, role) VALUES ($1,$2,$3) RETURNING *`;
   const { rows } = await pool.query(q, [nexusId, userId, role]);
   return rows[0];
 }
 
-module.exports = {
-  createNexus,
-  getNexusById,
-  getMyNexus,
-  getPublicNexus,
-  updateNexus,
-  deleteNexus,
-  addMember
-};
