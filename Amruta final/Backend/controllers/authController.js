@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import pool from '../config/db.js'; 
 import jwt from 'jsonwebtoken';
-import { createUser, findUserByEmail, findUserByAppleId, createAppleUser } from '../models/userModel.js';
+import { createUser, findUserByEmail, findUserByAppleId, createUserWithApple} from '../models/userModel.js';
 import { generateToken } from '../utils/generateToken.js';
 import appleService from "../services/appleAuthService.js";
 
