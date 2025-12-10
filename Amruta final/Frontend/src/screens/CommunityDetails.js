@@ -1,4 +1,5 @@
-// import React, { useState } from "react";
+
+// import React, { useState, useEffect } from "react";
 // import {
 //   View,
 //   Text,
@@ -10,7 +11,10 @@
 //   Alert,
 //   Modal,
 //   TextInput,
+//   ActivityIndicator,
 // } from "react-native";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { BASE_URL } from "../config"; // 👉 BASE_URL = "http://IP:5000/api"
 
 // // SIMPLE ICONS (emoji-based)
 // const HashIcon = ({ size = 20, color = "#6edaff" }) => (
@@ -112,9 +116,86 @@
 //   const [voiceSpaceExpanded, setVoiceSpaceExpanded] = useState(true);
 //   const [activeVoiceChannel, setActiveVoiceChannel] = useState("Lounge");
 //   const [activeChatChannel, setActiveChatChannel] = useState("general");
+
 //   const [members, setMembers] = useState(0);
+//   const [communityName, setCommunityName] = useState("Loading...");
+//   const [loadingNexus, setLoadingNexus] = useState(true);
+//   const [nexusError, setNexusError] = useState("");
+
 //   const [modalVisible, setModalVisible] = useState(false);
 //   const [newChannelName, setNewChannelName] = useState("");
+
+//   // ✅ FETCH MY NEXUS FROM BACKEND
+//   useEffect(() => {
+//     const fetchMyNexus = async () => {
+//       try {
+//         setLoadingNexus(true);
+//         setNexusError("");
+
+//         const token = await AsyncStorage.getItem("token");
+//         if (!token) {
+//           setLoadingNexus(false);
+//           Alert.alert("Session", "Please log in again.");
+//           return;
+//         }
+
+//         const url = `${BASE_URL}/nexus/my`; // 👉 BASE_URL already has /api
+//         console.log("GET my nexus URL =>", url);
+
+//         const res = await fetch(url, {
+//           method: "GET",
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+
+//         const contentType = res.headers.get("content-type");
+//         let data;
+
+//         if (contentType && contentType.includes("application/json")) {
+//           data = await res.json();
+//         } else {
+//           const text = await res.text();
+//           console.log("NON-JSON RESPONSE FROM /nexus/my =>", text);
+//           throw new Error("Server did not return JSON. Check backend route / URL.");
+//         }
+
+//         console.log("GET /nexus/my response =>", data);
+
+//         if (!res.ok || !data.success) {
+//           throw new Error(data.message || "Failed to load your nexus");
+//         }
+
+//         const list = data.data || [];
+
+//         if (list.length === 0) {
+//           setCommunityName("No Nexus Yet");
+//           setMembers(0);
+//         } else {
+//           // साधं: पहिला nexus दाखवतो
+//           const first = list[0];
+//           setCommunityName(first.name || "My Nexus");
+
+//           // backend कडून members count कोणत्या field मध्ये येतो त्यावर depend:
+//           // try member_count, members, total_members...
+//           const count =
+//             first.member_count ||
+//             first.members_count ||
+//             first.total_members ||
+//             first.members ||
+//             0;
+//           setMembers(count);
+//         }
+//       } catch (err) {
+//         console.log("Error fetching my nexus:", err);
+//         setNexusError(err.message || "Could not load your nexus");
+//       } finally {
+//         setLoadingNexus(false);
+//       }
+//     };
+
+//     fetchMyNexus();
+//   }, []);
 
 //   const handleSearchPress = () => {
 //     Alert.alert("Search", "Search functionality would open here");
@@ -124,7 +205,6 @@
 //     Alert.alert("Members", `Current members: ${members}`);
 //   };
 
-//   // 👉 Settings icon -> Nexus_Setting screen
 //   const handleSettingsPress = () => {
 //     if (navigation && navigation.navigate) {
 //       navigation.navigate("Nexus_Setting");
@@ -171,7 +251,6 @@
 //     }
 //   };
 
-//   // Press_Space_Creation_Flow SCREEN
 //   const openPress_Space_Creation_Flow = () => {
 //     if (navigation && navigation.navigate) {
 //       navigation.navigate("Press_Space_Creation_Flow");
@@ -221,7 +300,7 @@
 //       <View style={styles.container}>
 //         <ScrollView
 //           showsVerticalScrollIndicator={false}
-//           contentContainerStyle={{ paddingBottom: 40 }} // footer visible
+//           contentContainerStyle={{ paddingBottom: 40 }}
 //         >
 //           <View style={styles.mainCard}>
 //             {/* HEADER CARD */}
@@ -259,13 +338,28 @@
 //                   />
 //                 </View>
 //                 <View style={styles.headerText}>
-//                   <Text style={styles.title}>Sushìs City</Text>
-//                   <Text style={styles.subText}>
-//                     {members} Members • Community
+//                   {/* ⬇️ Backend मधून आलेलं नाव आणि members */}
+//                   <Text style={styles.title}>
+//                     {loadingNexus ? "Loading..." : communityName}
 //                   </Text>
+//                   <Text style={styles.subText}>
+//                     {loadingNexus ? "Please wait..." : `${members} Members • Community`}
+//                   </Text>
+//                   {nexusError ? (
+//                     <Text style={[styles.subText, { color: "#f97373" }]}>
+//                       {nexusError}
+//                     </Text>
+//                   ) : null}
 //                 </View>
 //               </View>
 //             </View>
+
+//             {/* जर loading असेल तर छोटा loader */}
+//             {loadingNexus && (
+//               <View style={{ alignItems: "center", marginBottom: 10 }}>
+//                 <ActivityIndicator size="small" color="#4f9cff" />
+//               </View>
+//             )}
 
 //             {/* CHAT SPACE – HEADER + FIXED BUTTONS BELOW */}
 //             <View style={styles.channelCard}>
@@ -285,8 +379,7 @@
 //                 <TouchableOpacity
 //                   style={[
 //                     styles.channelItem,
-//                     activeChatChannel === "general" &&
-//                       styles.channelItemActive,
+//                     activeChatChannel === "general" && styles.channelItemActive,
 //                   ]}
 //                   onPress={() => handleChannelPress("general")}
 //                 >
@@ -369,7 +462,6 @@
 //             </View>
 //           </View>
 //         </ScrollView>
-//         {/* 👇 bottomNav काढलं – Footer component आता दिसेल */}
 //       </View>
 
 //       {/* CREATE CHANNEL MODAL */}
@@ -416,8 +508,6 @@
 //     backgroundColor: "#020817",
 //     flexDirection: "row",
 //   },
-
-//   // LEFT NAV
 //   leftNav: {
 //     position: "absolute",
 //     left: 0,
@@ -456,7 +546,6 @@
 //     width: "100%",
 //     height: "100%",
 //   },
-
 //   iconContainer: {
 //     alignItems: "center",
 //     justifyContent: "center",
@@ -465,13 +554,10 @@
 //     fontSize: 16,
 //     fontWeight: "600",
 //   },
-
-//   // MAIN AREA
 //   container: {
 //     flex: 1,
 //     paddingLeft: 80,
 //   },
-
 //   mainCard: {
 //     backgroundColor: "#050F23",
 //     marginTop: 40,
@@ -482,8 +568,6 @@
 //     paddingTop: 22,
 //     paddingBottom: 26,
 //   },
-
-//   // HEADER CARD
 //   headerCard: {
 //     backgroundColor: "#050F23",
 //     borderRadius: 32,
@@ -529,7 +613,6 @@
 //     marginTop: 4,
 //     fontSize: 13,
 //   },
-
 //   actionBtns: {
 //     flexDirection: "row",
 //     alignItems: "center",
@@ -543,8 +626,6 @@
 //     alignItems: "center",
 //     marginLeft: 10,
 //   },
-
-//   // CHANNEL CARD (Chat / Voice)
 //   channelCard: {
 //     marginTop: 22,
 //   },
@@ -562,11 +643,9 @@
 //     fontWeight: "600",
 //     color: "#ffffff",
 //   },
-
 //   channelList: {
 //     marginTop: 8,
 //   },
-
 //   channelItem: {
 //     borderRadius: 18,
 //     marginBottom: 8,
@@ -601,7 +680,6 @@
 //     borderRadius: 999,
 //     backgroundColor: "#246BFD",
 //   },
-
 //   activeIndicator: {
 //     marginLeft: "auto",
 //     paddingRight: 16,
@@ -611,8 +689,6 @@
 //     fontSize: 14,
 //     fontWeight: "bold",
 //   },
-
-//   // (bottomNav styles kept but unused)
 //   bottomNav: {
 //     position: "absolute",
 //     bottom: 0,
@@ -636,8 +712,6 @@
 //     marginTop: 4,
 //     fontWeight: "500",
 //   },
-
-//   // MODAL
 //   modalContainer: {
 //     flex: 1,
 //     justifyContent: "center",
@@ -708,6 +782,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
 import { BASE_URL } from "../config"; // 👉 BASE_URL = "http://IP:5000/api"
 
 // SIMPLE ICONS (emoji-based)
@@ -720,12 +795,6 @@ const HashIcon = ({ size = 20, color = "#6edaff" }) => (
 const ZapIcon = ({ size = 20, color = "#6edaff" }) => (
   <View style={[styles.iconContainer, { width: size, height: size }]}>
     <Text style={[styles.iconText, { color }]}>⚡</Text>
-  </View>
-);
-
-const MicIcon = ({ size = 20, color = "#6edaff" }) => (
-  <View style={[styles.iconContainer, { width: size, height: size }]}>
-    <Text style={[styles.iconText, { color }]}>🎤</Text>
   </View>
 );
 
@@ -771,7 +840,6 @@ const PlusIcon = ({ size = 28, color = "#fff" }) => (
   </View>
 );
 
-// Bottom Navigation Icons (not used now but kept if needed later)
 const HomeIcon = ({ size = 22, color = "#8a8f9b" }) => (
   <View style={[styles.iconContainer, { width: size, height: size }]}>
     <Text style={[styles.iconText, { color, fontSize: 18 }]}>🏠</Text>
@@ -833,7 +901,7 @@ export default function CommunityDetails({ navigation }) {
           return;
         }
 
-        const url = `${BASE_URL}/nexus/my`; // 👉 BASE_URL already has /api
+        const url = `${BASE_URL}/nexus/my`;
         console.log("GET my nexus URL =>", url);
 
         const res = await fetch(url, {
@@ -866,12 +934,9 @@ export default function CommunityDetails({ navigation }) {
           setCommunityName("No Nexus Yet");
           setMembers(0);
         } else {
-          // साधं: पहिला nexus दाखवतो
           const first = list[0];
           setCommunityName(first.name || "My Nexus");
 
-          // backend कडून members count कोणत्या field मध्ये येतो त्यावर depend:
-          // try member_count, members, total_members...
           const count =
             first.member_count ||
             first.members_count ||
@@ -963,7 +1028,6 @@ export default function CommunityDetails({ navigation }) {
     "Chill Zone",
     "Game VC",
     "Hangout",
-    "Hangout",
   ];
 
   return (
@@ -1002,22 +1066,22 @@ export default function CommunityDetails({ navigation }) {
               <View style={styles.headerTopRow}>
                 <View style={styles.actionBtns}>
                   <TouchableOpacity
-                    style={styles.iconCircle}
+                    style={styles.iconCircleNew}
                     onPress={handleSearchPress}
                   >
-                    <SearchIcon />
+                    <Ionicons name="search" size={20} color="#fff" />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.iconCircle}
+                    style={styles.iconCircleNew}
                     onPress={handleUsersPress}
                   >
-                    <UsersIcon />
+                    <Ionicons name="people" size={20} color="#fff" />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.iconCircle}
+                    style={styles.iconCircleNew}
                     onPress={handleSettingsPress}
                   >
-                    <SettingsIcon />
+                    <Ionicons name="shield-checkmark" size={20} color="#fff" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -1026,13 +1090,12 @@ export default function CommunityDetails({ navigation }) {
                 <View style={styles.avatarCircle}>
                   <Image
                     source={{
-                      uri: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=100&h=100&fit=crop",
+                      uri: "https://i.pravatar.cc/150?img=68",
                     }}
                     style={styles.profile}
                   />
                 </View>
                 <View style={styles.headerText}>
-                  {/* ⬇️ Backend मधून आलेलं नाव आणि members */}
                   <Text style={styles.title}>
                     {loadingNexus ? "Loading..." : communityName}
                   </Text>
@@ -1048,14 +1111,13 @@ export default function CommunityDetails({ navigation }) {
               </View>
             </View>
 
-            {/* जर loading असेल तर छोटा loader */}
             {loadingNexus && (
               <View style={{ alignItems: "center", marginBottom: 10 }}>
                 <ActivityIndicator size="small" color="#4f9cff" />
               </View>
             )}
 
-            {/* CHAT SPACE – HEADER + FIXED BUTTONS BELOW */}
+            {/* CHAT SPACE */}
             <View style={styles.channelCard}>
               <TouchableOpacity
                 style={styles.channelHeader}
@@ -1133,7 +1195,12 @@ export default function CommunityDetails({ navigation }) {
                       >
                         {isActive && <View style={styles.activeBar} />}
                         <View style={styles.channelInner}>
-                          <MicIcon />
+                          <Ionicons 
+                            name="mic" 
+                            size={18} 
+                            color={isActive ? "#6edaff" : "#94a3b8"} 
+                            style={{ marginRight: 8 }} 
+                          />
                           <Text
                             style={[
                               styles.channelText,
@@ -1319,6 +1386,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
+  },
+  iconCircleNew: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#2563eb",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 12,
+    shadowColor: "#2563eb",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 6,
   },
   channelCard: {
     marginTop: 22,
