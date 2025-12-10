@@ -47,3 +47,22 @@ export async function deleteSpace(req, res, next) {
     res.json({ success:true, message: 'Deleted' });
   } catch (err) { next(err); }
 }
+
+export async function listSpaceMembersHandler(req, res, next) {
+  try {
+    const { spaceId } = req.params;
+    const rows = await spacesModel.listSpaceMembers(spaceId);
+    res.json({ success:true, data: rows });
+  } catch (err) { next(err); }
+}
+
+export async function updateSpaceSettingsHandler(req, res, next) {
+  try {
+    const { spaceId } = req.params;
+    const settings = req.body; // expect keys: darkMode, blur, visibility, etc.
+    // we store settings in settings JSONB column
+    const updated = await spacesModel.updateSpace(spaceId, { settings });
+    await activityModel.logActivity({ nexus_id: updated.nexus_id, user_id: req.user.id, action: 'space_settings_updated', meta: { settings } });
+    res.json({ success:true, data: updated });
+  } catch (err) { next(err); }
+}

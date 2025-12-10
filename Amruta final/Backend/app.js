@@ -30,7 +30,7 @@ app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use('/auth', authRoutes);
 app.use("/user", userRoutes);
 app.use('/api/nexus', nexusRoutes);
-// app.use('/api/nexus/icons', iconRoutes);  // note: iconRoutes has GET '/' - becomes /api/nexus/icons/
+//app.use('/api/nexus/icons', iconRoutes);  // note: iconRoutes has GET '/' - becomes /api/nexus/icons/
 //app.use('/api/invite', inviteRoutes);
 app.use('/api/members', membersRoutes);
 app.use('/api/spaces', spacesRoutes);

@@ -34,3 +34,18 @@ export async function deleteSpace(id) {
   await pool.query('DELETE FROM spaces WHERE id=$1', [id]);
   return;
 }
+
+
+export async function listSpaceMembers(spaceId) {
+  // spaces don't store members directly; members are on nexus. We'll join space->nexus->nexus_members
+  const q = `
+    SELECT nm.user_id, nm.role, nm.joined_at, u.name, u.email, u.avatar
+    FROM spaces s
+    JOIN nexus_members nm ON nm.nexus_id = s.nexus_id
+    LEFT JOIN users u ON u.id = nm.user_id
+    WHERE s.id = $1
+    ORDER BY nm.joined_at DESC
+  `;
+  const { rows } = await pool.query(q, [spaceId]);
+  return rows;
+}

@@ -1,9 +1,12 @@
 import bcrypt from 'bcryptjs';
 import pool from '../config/db.js'; 
 import jwt from 'jsonwebtoken';
+import crypto from "crypto";
 import { createUser, findUserByEmail, findUserByAppleId, createUserWithApple} from '../models/userModel.js';
 import { generateToken } from '../utils/generateToken.js';
 import appleService from "../services/appleAuthService.js";
+import { sendEmail } from "../services/emailService.js";
+import { createOtp, findValidOtp, markOtpUsed } from "../models/otpModel.js";
 
 export const signup = async (req, res) => {
     try {
@@ -73,7 +76,6 @@ export const login = async (req, res) => {
 };
 
 
-
 export const appleLogin = async (req, res) => {
     try {
         const { id_token } = req.body;
@@ -121,4 +123,73 @@ export const appleLogin = async (req, res) => {
         return res.status(500).json({ message: "Apple login failed" });
     }
 };
+
+// helper to get user by email
+async function getUserByEmail(email) {
+  const { rows } = await pool.query('SELECT * FROM users WHERE email=$1 LIMIT 1', [email]);
+  return rows[0];
+}
+
+export async function forgotPassword(req, res, next) {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ success:false, message:'email required' });
+    const user = await getUserByEmail(email);
+    if (!user) return res.status(404).json({ success:false, message:'user not found' });
+
+    const code = (Math.floor(100000 + Math.random()*900000)).toString(); // 6-digit OTP
+    await createOtp({ user_id: user.id, code, purpose: 'forgot_password', ttlMinutes: 15 });
+
+    // send email (adjust content)
+    await sendEmail({
+      to: user.email,
+      subject: "Your password reset code",
+      text: `Your OTP is ${code}. Expires in 15 minutes.`,
+      html: `<p>Your OTP is <b>${code}</b>. It expires in 15 minutes.</p>`
+    });
+
+    res.json({ success:true, message:'OTP sent to email' });
+  } catch (err) { next(err); }
+}
+
+export async function verifyOtp(req, res, next) {
+  try {
+    const { email, code } = req.body;
+    if (!email || !code) return res.status(400).json({ success:false, message:'email & code required' });
+    const user = await getUserByEmail(email);
+    if (!user) return res.status(404).json({ success:false, message:'user not found' });
+
+    const otp = await findValidOtp({ user_id: user.id, code, purpose: 'forgot_password' });
+    if (!otp) return res.status(400).json({ success:false, message:'invalid or expired OTP' });
+
+    // mark used
+    await markOtpUsed(otp.id);
+
+    // respond with temporary token (you can issue short-lived JWT or just return success to proceed to reset)
+    res.json({ success:true, message:'OTP verified' });
+  } catch (err) { next(err); }
+}
+
+export async function resetPassword(req, res, next) {
+  try {
+    const { email, code, newPassword } = req.body;
+    if (!email || !code || !newPassword) return res.status(400).json({ success:false, message:'email, code, newPassword required' });
+
+    const user = await getUserByEmail(email);
+    if (!user) return res.status(404).json({ success:false, message:'user not found' });
+
+    const otp = await findValidOtp({ user_id: user.id, code, purpose: 'forgot_password' });
+    if (!otp) return res.status(400).json({ success:false, message:'invalid or expired OTP' });
+
+    // mark used
+    await markOtpUsed(otp.id);
+
+    // update password
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(newPassword, saltRounds);
+    await pool.query('UPDATE users SET password=$1 WHERE id=$2', [hash, user.id]);
+
+    res.json({ success:true, message:'Password reset successful' });
+  } catch (err) { next(err); }
+}
 
