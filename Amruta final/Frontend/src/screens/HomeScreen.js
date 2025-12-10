@@ -521,7 +521,7 @@ export default function HomeScreen({ navigation }) {
         // 👇 इथे तुझा खरा backend URL टाक
         // उदा: http://192.168.1.5:5000/api/public-nexus
         const res = await fetch(
-          "http://192.168.1.5:5000/api/public-nexus"
+          "http://YOUR_BACKEND_URL_HERE/api/public-nexus"
         );
 
         const json = await res.json();
