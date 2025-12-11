@@ -1,14 +1,24 @@
 // Backend/controllers/messageController.js
 import * as messageModel from "../models/messageModel.js";
 import * as reactionModel from "../models/reactionModel.js";
+import * as orbitModel from "../models/orbitModel.js";
 
 /* create message via REST (used when client wants REST fallback) */
 export async function sendMessageHandler(req, res, next) {
   try {
+    const userId = req.user.id;
     const { chatId } = req.params;
-    const { body = '', attachments = [] } = req.body;
-    const message = await messageModel.createMessage({ chat_id: chatId, user_id: req.user.id, body, attachments });
-    res.status(201).json({ success:true, data: message });
+    // if chat is direct (type direct) and recipient known, check mutual
+    const chat = await chatModel.getChatById(chatId);
+    if (chat.type === "direct") {
+      // find the other member
+      const members = await chatModel.listMembers(chatId);
+      const other = members.find(m => m.user_id !== userId);
+      if (!other) return res.status(400).json({ success:false, message: "No recipient found" });
+      const mutual = await orbitModel.isMutual(userId, other.user_id);
+      if (!mutual) return res.status(403).json({ success:false, message: "Both users must follow each other to send messages" });
+    }
+    // create message...
   } catch (err) { next(err); }
 }
 

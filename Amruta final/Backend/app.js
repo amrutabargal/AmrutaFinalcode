@@ -16,6 +16,8 @@ import searchRoutes from './routes/searchRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import activityRoutes from './routes/activityRoutes.js';
+import orbitRoutes from "./routes/orbitRoutes.js";
+
 
 
 dotenv.config();
@@ -40,6 +42,7 @@ app.use('/api/search', searchRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/activity', activityRoutes);
+app.use("/api/orbit", orbitRoutes);
 
 //const PORT = process.env.PORT || ;
 // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
