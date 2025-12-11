@@ -153,7 +153,7 @@ export default function SecurityScreen({ navigation }) {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#0c0f1a",
+    backgroundColor: "#020a25ff",
   },
   container: {
     flex: 1,

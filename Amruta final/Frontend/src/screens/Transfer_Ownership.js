@@ -1,351 +1,271 @@
-// TransferOwnershipScreen.js
 import React, { useState } from "react";
 import {
-  SafeAreaView,
   View,
   Text,
+  Image,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
-  StatusBar,
-  Image,
-  Platform,
+  SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";  
 
-const { width, height } = Dimensions.get("window");
-
-export default function TransferOwnershipScreen({ navigation }) {
-  // toggles and state
-  const [confirmToggle, setConfirmToggle] = useState(false);
-
-  // sample avatar sources - replace with your assets
-  const topAvatar = null; // require('../../assets/topAvatar.png')
-  const bottomAvatar = null; // require('../../assets/bottomAvatar.png')
-  const bottomName = "Shusshi Clean Nexus";
-  const targetName = "7SUIL_Notashah15";
-
-  const handleTransfer = () => {
-    if (!confirmToggle) {
-      // optionally show toast / disabled
-      return;
-    }
-    // perform transfer logic here (API call)
-    console.log("Transfer ownership to:", targetName);
-  };
+export default function Chat() {
+  const [enabled, setEnabled] = useState(false);
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.container}>
-        {/* Top header */}
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.iconBtn} onPress={() => navigation.goBack?.()}>
-            <Ionicons name="close" size={22} color="#CFE0FF" />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+
+        {/* ---------------- HEADER ROW ---------------- */}
+        <View style={styles.headerRow}>
+          <TouchableOpacity>
+            <Ionicons name="close" size={28} color="#fff" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Transfer Ownership</Text>
-          <View style={{ width: 44 }} />
+
+          <Text style={styles.title}>Transfer Ownership</Text>
+
+          <View style={{ width: 28 }} />
         </View>
+        {/* --------------------------------------------- */}
 
-        {/* Avatars stack */}
-        <View style={styles.avatarsWrap}>
-          <View style={styles.avatarTop}>
-            {topAvatar ? (
-              <Image source={topAvatar} style={styles.avatarImg} />
-            ) : (
-              <View style={[styles.avatarImg, styles.avatarPlaceholder]}>
-                <Text style={styles.avatarInitial}>A</Text>
-              </View>
-            )}
+        {/* Avatar Section */}
+        <View style={styles.avatarContainer}>
+          <View style={styles.avatarWrapper}>
+            <Image
+              source={require("../../assets/user1.png")}
+              style={styles.avatar}
+            />
           </View>
 
-          {/* dotted connector */}
-          <View style={styles.connectorWrap}>
-            <View style={styles.dotsCol}>
-              {Array.from({ length: 6 }).map((_, i) => (
-                <View key={i} style={styles.dot} />
-              ))}
-            </View>
+          <View style={styles.arrow}>
+            <Ionicons name="arrow-forward-circle" size={42} color="#73e29c" />
           </View>
 
-          <View style={styles.avatarBottom}>
-            {bottomAvatar ? (
-              <Image source={bottomAvatar} style={styles.avatarImg} />
-            ) : (
-              <View style={[styles.avatarImg, styles.avatarPlaceholderBottom]}>
-                <Text style={styles.avatarInitialBottom}>{bottomName.split(" ")[0][0]}</Text>
-              </View>
-            )}
-            <Text style={styles.avatarLabel}>{bottomName}</Text>
+          <View style={[styles.avatarWrapper, styles.glow]}>
+            <Image
+              source={require("../../assets/user2.png")}
+              style={styles.avatar}
+            />
           </View>
         </View>
 
-        {/* explanatory text */}
-        <View style={styles.explainWrap}>
-          <Text style={styles.explainPrimary}>
-            This will transfer ownership of <Text style={styles.boldText}>{bottomName}</Text> to{" "}
-            <Text style={styles.boldText}>{targetName}</Text>. This cannot be undone!
-          </Text>
-        </View>
+        <Text style={styles.username}>Shusshi Clean Nexus</Text>
 
-        {/* bordered card with toggle */}
-        <View style={styles.cardWrap}>
-          <View style={styles.cardInner}>
-            <View style={styles.cardRow}>
-              <Text style={styles.cardLabel}>
-                I acknowledge that by transferring ownership of this nexus I transfer control to{" "}
-                <Text style={styles.boldText}>{targetName}</Text>.
-              </Text>
-            </View>
+        {/* Description */}
+        <Text style={styles.description}>
+          This will transfer ownership of{" "}
+          <Text style={{ fontWeight: "700" }}>Shusshi nexus</Text> to{" "}
+          <Text style={{ fontWeight: "700" }}>!7SUII_Notashish15.</Text> This
+          cannot be undone!
+        </Text>
 
-            <View style={styles.cardRowBottom}>
-              <Text style={styles.cardSmall}>Transfer Ownership</Text>
-              <ToggleSwitch value={confirmToggle} onChange={setConfirmToggle} />
-            </View>
-          </View>
-        </View>
+        {/* Toggle Section */}
+        <View style={styles.toggleBox}>
+          <Text style={styles.toggleLabel}>Transfer Ownership</Text>
 
-        {/* primary button */}
-        <View style={styles.footer}>
+          {/* ⭐⭐ CUSTOM GRADIENT TOGGLE ⭐⭐ */}
           <TouchableOpacity
-            activeOpacity={0.9}
-            onPress={handleTransfer}
-            disabled={!confirmToggle}
+            onPress={() => setEnabled(!enabled)}
+            activeOpacity={0.8}
           >
             <LinearGradient
-              colors={confirmToggle ? ["#2D57C8", "#316BFF"] : ["#16263D", "#16263D"]}
-              start={[0, 0]}
-              end={[1, 1]}
-              style={[styles.primaryBtn, !confirmToggle && styles.primaryBtnDisabled]}
+              colors={
+                enabled
+                  ? ["#15CAF3", "#A81AF2"]
+                  : ["#4D4D4D", "#3A3A3A"]
+              }
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.gradientToggle}
             >
-              <Text style={styles.primaryBtnText}>Transfer Ownership</Text>
+              <View
+                style={[
+                  styles.knob,
+                  enabled && styles.knobActive,
+                ]}
+              />
             </LinearGradient>
           </TouchableOpacity>
-
-          {/* small confirmation pill below button */}
-          <View style={styles.pill}>
-            <Text style={styles.pillText}>339 Hug × 152 Hug</Text>
-          </View>
         </View>
+
+        {/* Acknowledge Text */}
+        <Text style={styles.note}>
+          I acknowledge that by transferring ownership of this nexus to{" "}
+          <Text style={{ fontWeight: "bold" }}>!7SUII_Notashish15.</Text>, it
+          officially belongs to them.{" "}
+          <Text style={styles.learn}>Learn more.</Text>
+        </Text>
+
+        {/* Transfer Ownership Button */}
+        <TouchableOpacity
+          style={[
+            styles.button,
+            { backgroundColor: enabled ? "#4f46e5" : "#3154BA4D" },
+          ]}
+          disabled={!enabled}
+        >
+          <Text style={styles.buttonText}>Transfer Ownership</Text>
+        </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );
 }
 
-/* small toggle component that matches circular gradient knob */
-function ToggleSwitch({ value = false, onChange = () => {} }) {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.9}
-      onPress={() => onChange(!value)}
-      style={[toggleStyles.track, value ? toggleStyles.trackOn : toggleStyles.trackOff]}
-    >
-      <View style={[toggleStyles.knob, value ? toggleStyles.knobOn : toggleStyles.knobOff]} />
-    </TouchableOpacity>
-  );
-}
-
-/* ---------------- styles ---------------- */
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#050B18" },
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 8,
+    backgroundColor: "#0b0f1a",
   },
 
-  header: {
-    height: 56,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  iconBtn: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
-  headerTitle: { color: "#E6EEFF", fontSize: 16, fontWeight: "700" },
-
-  avatarsWrap: {
-    marginTop: 8,
-    alignItems: "center",
-  },
-  avatarTop: {
-    alignItems: "center",
-  },
-  avatarBottom: {
-    marginTop: 6,
-    alignItems: "center",
+  content: {
+    flex: 1,
+    paddingHorizontal: 16,
   },
 
-  avatarImg: {
-    width: 84,
-    height: 84,
-    borderRadius: 84 / 2,
-  },
-  avatarPlaceholder: {
-    backgroundColor: "#8EEBD8", // mint circle as in image
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarInitial: {
-    color: "#08303A",
-    fontWeight: "800",
-    fontSize: 36,
-  },
-  avatarPlaceholderBottom: {
-    backgroundColor: "#FFB6C7", // pink
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarInitialBottom: {
-    color: "#3A1B16",
-    fontWeight: "700",
-    fontSize: 36,
-  },
-  avatarLabel: {
-    marginTop: 8,
-    color: "#CFE0FF",
-    fontSize: 13,
-    fontWeight: "600",
-  },
-
-  connectorWrap: {
-    height: 80,
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 6,
-  },
-  dotsCol: {
-    width: 2,
-    alignItems: "center",
-  },
-  dot: {
-    width: 3,
-    height: 3,
-    borderRadius: 2,
-    backgroundColor: "rgba(207,224,255,0.22)",
-    marginVertical: 4,
-  },
-
-  explainWrap: {
-    marginTop: 10,
-    paddingHorizontal: 6,
-  },
-  explainPrimary: {
-    color: "rgba(207,224,255,0.72)",
-    fontSize: 13,
-    textAlign: "center",
-    lineHeight: 18,
-  },
-  boldText: { color: "#E6EEFF", fontWeight: "700" },
-
-  cardWrap: {
-    marginTop: 18,
-    paddingHorizontal: 6,
-  },
-  cardInner: {
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "rgba(45,87,200,0.18)",
-    backgroundColor: "rgba(7,17,38,0.6)",
-    padding: 12,
-    // subtle inner glow / shadow
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.18,
-    shadowRadius: 12,
-    elevation: 6,
-  },
-  cardRow: {
-    paddingBottom: 10,
-  },
-  cardLabel: {
-    color: "rgba(207,224,255,0.74)",
-    fontSize: 12,
-    lineHeight: 18,
-  },
-  cardRowBottom: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 6,
-  },
-  cardSmall: {
-    color: "#CFE0FF",
-    fontWeight: "700",
-    fontSize: 13,
-  },
-
-  footer: {
+  /* HEADER STYLE */
+  headerRow: {
     marginTop: 20,
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
   },
-  primaryBtn: {
-    width: width * 0.68,
-    height: 48,
-    borderRadius: 26,
+
+  title: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+
+  avatarContainer: {
+    marginTop: 30,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // floating shadow
-    shadowColor: "#316BFF",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.18,
-    shadowRadius: 16,
-    elevation: 10,
   },
-  primaryBtnDisabled: {
-    opacity: 0.78,
+
+  avatarWrapper: {
+    width: 78,
+    height: 78,
+    borderRadius: 40,
+    backgroundColor: "#1a1f2c",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
   },
-  primaryBtnText: {
+
+  glow: {
+    shadowColor: "#4f46e5",
+    shadowOpacity: 0.9,
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: 20,
+  },
+
+  avatar: {
+    width: 70,
+    height: 70,
+    resizeMode: "contain",
+  },
+
+  arrow: {
+    marginHorizontal: 15,
+  },
+
+  username: {
+    marginTop: 18,
+    color: "#BDBDBD",
+    fontSize: 18,
+    fontWeight: "500",
+    textAlign: "center",
+    paddingTop: 16,
+  },
+
+  description: {
+    marginTop: 57,
+    fontWeight: "500",
+    color: "#BDBDBD",
+    fontSize: 12,
+    textAlign: "center",
+    paddingHorizontal: 16,
+  },
+
+  toggleBox: {
+    marginTop: 30,
+    width: "100%",
+    backgroundColor: "#3154BA4D",
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+      borderWidth: 1,
+      borderColor: "#3154BA",
+    alignItems: "center",
+  },
+
+  toggleLabel: {
     color: "#fff",
-    fontWeight: "700",
-    fontSize: 15,
+    fontSize: 12,
+    fontWeight: "500",
   },
 
-  pill: {
-    marginTop: 12,
-    backgroundColor: "#0E3C77",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#2D78FF",
-  },
-  pillText: {
-    color: "#BFE1FF",
-    fontWeight: "700",
-    fontSize: 13,
-  },
-});
-
-/* toggle styles */
-const toggleStyles = StyleSheet.create({
-  track: {
-    width: 52,
+  /* ⭐⭐⭐ GRADIENT TOGGLE ⭐⭐⭐ */
+  gradientToggle: {
+    width: 56,
     height: 28,
     borderRadius: 20,
     padding: 3,
     justifyContent: "center",
   },
-  trackOff: {
-    backgroundColor: "rgba(255,255,255,0.06)",
-    alignItems: "flex-start",
-  },
-  trackOn: {
-    backgroundColor: "linear-gradient(90deg, #6B5BFF, #316BFF)", // not used on RN; kept for visual note
-    backgroundColor: "#5F52F8",
-    alignItems: "flex-end",
-  },
+
   knob: {
-    width: 20,
-    height: 20,
-    borderRadius: 20 / 2,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.18,
-    shadowRadius: 6,
-    elevation: Platform.OS === "android" ? 4 : 0,
+    transform: [{ translateX: 0 }],
   },
-  knobOn: {},
-  knobOff: {},
+
+  knobActive: {
+    transform: [{ translateX: 26 }],
+  },
+
+  /* ---------------------------------- */
+
+  note: {
+    marginTop: 20,
+    color: "#BDBDBD",
+    marginHorizontal: 22,
+    fontSize: 10,
+    textAlign: "left",
+  },
+
+  learn: {
+    color: "#3255BA",
+    fontWeight: "500",
+  },
+
+
+  button: {
+  marginTop: 70,
+  paddingVertical: 15,
+  paddingHorizontal: 25,   // ⭐ new
+  borderRadius: 12,
+  alignSelf: "center",     // ⭐ center button
+  borderColor: "#3154BA",
+  borderWidth: 1,
+    backgroundColor: "#3154BA4D",
+},
+
+
+buttonText: {
+  color: "#fff",
+  textAlign: "center",
+  fontSize: 16,
+  fontWeight: "600",
+},
+
 });

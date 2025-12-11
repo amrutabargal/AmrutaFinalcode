@@ -1078,7 +1078,8 @@ export default function VerifyOtpScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#0b0f1a" },
+  safe: { flex: 1,     backgroundColor: "#020a25ff",
+ },
   flex: { flex: 1 },
   container: {
     flex: 1,

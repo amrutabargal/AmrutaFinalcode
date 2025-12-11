@@ -191,12 +191,20 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 14,
+    borderRadius: 15,
     paddingHorizontal: 12,
     paddingVertical: 10,
-    backgroundColor: "rgba(7,18,36,0.6)",
+    backgroundColor: "#0B1730",
     borderWidth: 1,
-    borderColor: "rgba(58,88,160,0.16)",
+    borderColor: "#3154BA",
+    // ⭐ Shadow for iOS
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.25,
+  shadowRadius: 10,
+
+  // ⭐ Shadow for Android
+  elevation: 8,
   },
   searchInput: { flex: 1, color: "#CFE0FF", fontSize: 14 },
 
@@ -204,42 +212,65 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "rgba(7,18,36,0.4)",
-    borderRadius: 12,
+    backgroundColor: "#0B1730",
+    borderRadius: 15,
     paddingHorizontal: 12,
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: "rgba(58,88,160,0.12)",
+    borderColor: "#3154BA",
     marginBottom: 12,
+    // ⭐ Shadow for iOS
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.25,
+  shadowRadius: 10,
+
+  // ⭐ Shadow for Android
+  elevation: 8,
   },
   pillLeft: { flexDirection: "row", alignItems: "center" },
   pillText: { color: "#E6EEFF", fontSize: 14, fontWeight: "700" },
 
-  toggleTouchable: { padding: 6 },
-  toggleTrack: {
-    width: 48,
-    height: 26,
-    borderRadius: 20,
-    padding: 2,
-    justifyContent: "center",
-  },
-  toggleOn: { backgroundColor: "#6B5BFF", alignItems: "flex-end" },
-  toggleOff: { backgroundColor: "rgba(255,255,255,0.06)", alignItems: "flex-start" },
-  toggleKnob: {
-    width: 20,
-    height: 20,
-    borderRadius: 12,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.18,
-    shadowRadius: 6,
-  },
+  toggleTouchable: { padding: 4 },
+
+toggleTrack: {
+  width: 52,
+  height: 28,
+  borderRadius: 20,
+  padding: 2,
+  justifyContent: "center",
+    backgroundColor: "#0B1730",
+  borderWidth: 1,
+    borderColor: "#3154BA",
+},
+
+toggleOn: {
+  backgroundColor: "#4479FF",
+    borderColor: "#3154BA",
+},
+
+toggleOff: {
+    backgroundColor: "#0B1730",
+  borderColor: "rgba(255,255,255,0.15)",
+},
+
+toggleKnob: {
+  width: 24,
+  height: 24,
+  borderRadius: 20,
+  backgroundColor: "#FFFFFF",
+  shadowColor: "#000",
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  shadowOffset: { width: 0, height: 2 },
+  elevation: 4,
+},
+
 
   /* card list */
   cardWrap: { marginTop: 12 },
   card: {
-    borderRadius: 14,
+    borderRadius: 15,
     padding: 12,
     backgroundColor: "#3457B1",
     flexDirection: "row",
@@ -252,6 +283,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 12,
     elevation: 4,
+        borderColor: "#3154BA",
+
   },
   cardExpanded: {
     backgroundColor: "#2B4EB5",

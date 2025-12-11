@@ -45,32 +45,28 @@ export default function V23({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
 
-      {/* Fake status bar */}
-      <View style={styles.fakeStatusBar}>
-        <Text style={styles.timeText}>9:41</Text>
-        <View style={styles.fakeStatusIcons}>
-          <Ionicons name="cellular" size={16} color="#ffffff" style={styles.fakeIcon} />
-          <Ionicons name="wifi" size={16} color="#ffffff" style={styles.fakeIcon} />
-          <Ionicons name="battery-full" size={20} color="#ffffff" style={styles.fakeIcon} />
-        </View>
-      </View>
+     
 
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
-        <View style={styles.headerRow}>
-          <TouchableOpacity onPress={handleBack} activeOpacity={0.7}>
-            <Ionicons name="chevron-back" size={24} color="#ffffff" />
+        
+<View style={styles.headerRow}>
+          <TouchableOpacity onPress={handleBack}>
+            <Ionicons name="chevron-back" size={28} color="#fff" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Spaces</Text>
-          <View style={{ width: 24 }} />
-        </View>
 
+          <View style={styles.headerCenter}>
+            <Text style={styles.headerTitle}>Spaces</Text>
+            <Text style={styles.headerSubtitle}>Manage spaces in this Nexus</Text>
+          </View>
+
+          <View style={{ width: 28 }} />
+        </View>
         {/* Subtitle */}
-        <Text style={styles.subtitle}>Manage spaces in this Nexus</Text>
+        <Text style={styles.subtitle}>Manage spaces in this Nexus</Text> */}
 
         {/* Space name input */}
         <View style={styles.section}>
@@ -215,20 +211,9 @@ export default function V23({ navigation }) {
         </TouchableOpacity>
 
         {/* Save */}
-        <TouchableOpacity
-          style={styles.saveButtonWrapper}
-          activeOpacity={0.9}
-          onPress={handleSave}
-        >
-          <LinearGradient
-            colors={["#355DFF", "#7F5DFF"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.saveGradient}
-          >
-            <Text style={styles.saveText}>Save</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                 <Text style={styles.saveLabel}>Save</Text>
+               </TouchableOpacity>
 
         <TouchableOpacity onPress={handleReset} activeOpacity={0.7}>
           <Text style={styles.resetText}>Reset to Default</Text>
@@ -284,8 +269,8 @@ function SettingSwitchRow({ label, value, onValueChange, isLast }) {
       <Switch
         value={value}
         onValueChange={onValueChange}
-        thumbColor={value ? "#1BFFFF" : "#ffffff"}
-        trackColor={{ false: "#122347", true: "#2340A0" }}
+        trackColor={{ false: "#1E293B", true: "#4479FF" }}
+              thumbColor="#fff"
       />
     </View>
   );
@@ -299,8 +284,8 @@ function SingleSwitchCard({ label, value, onValueChange }) {
         <Switch
           value={value}
           onValueChange={onValueChange}
-          thumbColor={value ? "#1BFFFF" : "#ffffff"}
-          trackColor={{ false: "#122347", true: "#2340A0" }}
+          trackColor={{ false: "#1E293B", true: "#4479FF" }}
+              thumbColor="#fff"
         />
       </View>
     </View>
@@ -360,66 +345,91 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
   },
 
+  /* ---------- HEADER ---------- */
   headerRow: {
-    marginTop: 12,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    marginBottom: 25,
+    marginTop: 50,
   },
-  headerTitle: {
-    color: "#ffffff",
-    fontSize: 20,
+
+  headerCenter: { flex: 1, alignItems: "center" },
+  headerTitle: { 
+    fontSize: 20, 
     fontWeight: "600",
-  },
+     color: "#fff", 
+     marginBottom:5,
+     marginTop:10,
+    },
+  headerSubtitle: { 
+    fontSize: 11,
+     color: "rgba(255,255,255,0.6)" 
+    },
+
   subtitle: {
     marginTop: 6,
-    color: "rgba(255,255,255,0.7)",
+    color: "rgba(255,255,255,0.65)",
     fontSize: 12,
   },
 
+  /* ---------- INPUT ---------- */
   section: {
-    marginTop: 20,
+    marginTop: 22,
   },
   sectionLabel: {
     color: "rgba(255,255,255,0.8)",
     fontSize: 13,
-    marginBottom: 8,
+    marginBottom: 10,
   },
   inputWrapper: {
-    borderRadius: 14,
+    borderRadius: 15,
+    backgroundColor: "#071224",
     borderWidth: 1,
-    borderColor: "#2849D8",
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    backgroundColor: "#071234",
+    borderColor: "#2D57C8",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+
+    // shadow
+    shadowColor: "#3154FF",
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
   },
   input: {
     color: "#ffffff",
-    fontSize: 14,
+    fontSize: 15,
+    fontWeight: "500",
   },
   helperText: {
-    marginTop: 8,
+    marginTop: 6,
     fontSize: 11,
-    color: "rgba(255,255,255,0.6)",
+    color: "rgba(255,255,255,0.55)",
   },
 
+  /* ---------- SECTION CARD ---------- */
   sectionCardContainer: {
-    marginTop: 20,
+    marginTop: 26,
   },
   sectionTabLabel: {
     alignSelf: "flex-start",
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 6,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
-    backgroundColor: "#071739",
-    marginLeft: 10,
-    zIndex: 2,
+    backgroundColor: "#08183A",
+    // fontSize:19,
+
+    // glow
+    shadowColor: "#3F65FF",
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 3 },
   },
   sectionTabLabelText: {
     color: "#9FB4FF",
-    fontSize: 11,
-    fontWeight: "500",
+    fontSize: 14,
+    fontWeight: "600",
   },
 
   card: {
@@ -427,44 +437,62 @@ const styles = StyleSheet.create({
     borderRadius: CARD_RADIUS,
     backgroundColor: "#071739",
     borderWidth: 1,
-    borderColor: "#132652",
+    borderColor: "#2D57C8",
+
+    // depth card shadow
+    shadowColor: "#0A1C3F",
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 8,
+
     overflow: "hidden",
   },
 
+  /* ---------- ROWS ---------- */
   settingRow: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 18,
+    paddingVertical: 14,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   settingRowBorder: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "rgba(255,255,255,0.06)",
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255,255,255,0.05)",
   },
   settingLabel: {
     color: "#ffffff",
-    fontSize: 13,
+    fontSize: 13.5,
+    fontWeight: "500",
   },
   settingRight: {
     flexDirection: "row",
     alignItems: "center",
   },
   settingValue: {
-    color: "#9FB4FF",
-    fontSize: 12,
-    marginRight: 6,
+    color: "#ffffff",
+    fontSize: 12.5,
+    marginRight: 8,
   },
 
+  /* ---------- SINGLE CARDS ---------- */
   singleCard: {
-    marginTop: 14,
-    borderRadius: CARD_RADIUS,
+    marginTop: 16,
+    borderRadius: 15,
     backgroundColor: "#071739",
     borderWidth: 1,
-    borderColor: "#132652",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    borderColor: "#2D57C8",
+    paddingHorizontal: 18,
+    paddingVertical: 14,
+
+    shadowColor: "#0A1C3F",
+    shadowOpacity: 0.35,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 8,
   },
+
   singleRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -472,50 +500,67 @@ const styles = StyleSheet.create({
   },
 
   footnoteText: {
-    marginTop: 6,
+    marginTop: 8,
     fontSize: 11,
-    color: "rgba(255,255,255,0.5)",
+    color: "rgba(255,255,255,0.52)",
   },
 
+  /* ---------- DELETE BUTTON ---------- */
   deleteButton: {
-    marginTop: 24,
-    borderRadius: CARD_RADIUS,
+    marginTop: 26,
+    borderRadius: 15,
     backgroundColor: "#2A0C16",
     borderWidth: 1,
     borderColor: "#FF4B5C",
-    paddingVertical: 12,
+    paddingVertical: 14,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-  },
-  deleteText: {
-    color: "#FFD3D3",
-    fontSize: 14,
-    fontWeight: "500",
-    marginLeft: 8,
-  },
 
-  saveButtonWrapper: {
-    marginTop: 18,
-    borderRadius: CARD_RADIUS,
-    overflow: "hidden",
+    shadowColor: "#FF4B5C",
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 7,
   },
-  saveGradient: {
-    paddingVertical: 13,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  saveText: {
-    color: "#ffffff",
-    fontSize: 15,
-    fontWeight: "600",
-  },
+    deleteText: { marginLeft: 8, color: "#FF7777", fontSize: 14 },
+
+
+  /* ---------- SAVE BUTTON ---------- */
+ 
+  saveButton: {
+  width: 142,
+  height: 50,
+  borderRadius: 15,
+  borderColor: "#3154BA",
+  backgroundColor: "#0C142A",
+  justifyContent: "center",
+  alignItems: "center",
+  alignSelf: "center",
+  // marginBottom: 10,
+   borderWidth: 1,
+   marginTop:30,
+
+  // ⭐ iOS Shadow
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.25,
+  shadowRadius: 10,
+
+  // ⭐ Android Shadow
+  elevation: 8,
+},
+
+  saveLabel: { color: "#fff", fontSize: 16, fontWeight: "600" },
 
   resetText: {
-    marginTop: 10,
+    marginTop: 12,
     textAlign: "center",
-    color: "rgba(255,255,255,0.6)",
-    fontSize: 12,
+    color: "rgba(255,255,255,0.55)",
+    fontSize: 12.5,
+    fontWeight: "500",
   },
 });
+
+

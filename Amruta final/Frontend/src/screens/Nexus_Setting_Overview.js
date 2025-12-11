@@ -1,2156 +1,376 @@
-// // import React, { useState } from "react";
-// // import {
-// //   View,
-// //   Text,
-// //   StyleSheet,
-// //   StatusBar,
-// //   Dimensions,
-// //   Platform,
-// //   ScrollView,
-// //   TouchableOpacity,
-// //   TextInput,
-// //   Switch,
-// //   Alert,
-// // } from "react-native";
-// // import { Ionicons } from "@expo/vector-icons";
 
-// // const { width, height } = Dimensions.get("window");
-
-// // export default function Nexus_Overview({ navigation }) {
-// //   const [nexusName, setNexusName] = useState("Shusshi Clean");
-
-// //   const [inactiveSpace, setInactiveSpace] = useState("No Inactive Space");
-// //   const [timeoutValue, setTimeoutValue] = useState("5 minutes");
-
-// //   const [systemSpace, setSystemSpace] = useState("General");
-// //   const [joinMessageEnabled, setJoinMessageEnabled] = useState(true);
-
-// //   const [showJoinLeave, setShowJoinLeave] = useState(true);
-// //   const [showRoleChanges, setShowRoleChanges] = useState(true);
-// //   const [showUsernameChanges, setShowUsernameChanges] = useState(true);
-
-// //   const handleBack = () => {
-// //     if (navigation?.goBack) navigation.goBack();
-// //   };
-
-// //   const handleSave = () => {
-// //     Alert.alert(
-// //       "Saved",
-// //       `Nexus name: ${nexusName}\nInactive: ${inactiveSpace}\nTimeout: ${timeoutValue}\nSystem Space: ${systemSpace}`
-// //     );
-// //   };
-
-// //   const handleReset = () => {
-// //     setNexusName("Shusshi Clean");
-// //     setInactiveSpace("No Inactive Space");
-// //     setTimeoutValue("5 minutes");
-// //     setSystemSpace("General");
-// //     setJoinMessageEnabled(true);
-// //     setShowJoinLeave(true);
-// //     setShowRoleChanges(true);
-// //     setShowUsernameChanges(true);
-// //     Alert.alert("Reset", "Settings reset to default (demo).");
-// //   };
-
-// //   const handleDelete = () => {
-// //     Alert.alert(
-// //       "Delete Nexus",
-// //       "Are you sure you want to delete this Nexus?",
-// //       [
-// //         { text: "Cancel", style: "cancel" },
-// //         { text: "Delete", style: "destructive", onPress: () => {} },
-// //       ]
-// //     );
-// //   };
-
-// //   const chooseInactiveSpace = () => {
-// //     Alert.alert(
-// //       "Inactive Space",
-// //       "Choose inactive space (demo)",
-// //       [
-// //         { text: "No Inactive Space", onPress: () => setInactiveSpace("No Inactive Space") },
-// //         { text: "Archive After 7 days", onPress: () => setInactiveSpace("Archive After 7 days") },
-// //         { text: "Cancel", style: "cancel" },
-// //       ]
-// //     );
-// //   };
-
-// //   const chooseTimeout = () => {
-// //     Alert.alert(
-// //       "Timeout",
-// //       "Choose timeout (demo)",
-// //       [
-// //         { text: "5 minutes", onPress: () => setTimeoutValue("5 minutes") },
-// //         { text: "15 minutes", onPress: () => setTimeoutValue("15 minutes") },
-// //         { text: "30 minutes", onPress: () => setTimeoutValue("30 minutes") },
-// //         { text: "Cancel", style: "cancel" },
-// //       ]
-// //     );
-// //   };
-
-// //   const chooseSystemSpace = () => {
-// //     Alert.alert(
-// //       "System Space",
-// //       "Choose system space (demo)",
-// //       [
-// //         { text: "General", onPress: () => setSystemSpace("General") },
-// //         { text: "Announcements", onPress: () => setSystemSpace("Announcements") },
-// //         { text: "Cancel", style: "cancel" },
-// //       ]
-// //     );
-// //   };
-
-// //   return (
-// //     <View style={styles.container}>
-// //       <StatusBar barStyle="light-content" />
-
-// //       {/* Fake status bar row */}
-// //       <View style={styles.fakeStatusBar}>
-// //         <Text style={styles.timeText}>9:41</Text>
-// //         <View style={styles.fakeStatusIcons}>
-// //           <Ionicons name="cellular" size={16} color="#ffffff" style={styles.fakeIcon} />
-// //           <Ionicons name="wifi" size={16} color="#ffffff" style={styles.fakeIcon} />
-// //           <Ionicons name="battery-full" size={20} color="#ffffff" style={styles.fakeIcon} />
-// //         </View>
-// //       </View>
-
-// //       <ScrollView
-// //         style={{ flex: 1 }}
-// //         contentContainerStyle={styles.scrollContent}
-// //         showsVerticalScrollIndicator={false}
-// //         keyboardShouldPersistTaps="handled"
-// //       >
-// //         {/* Header */}
-// //         <View style={styles.headerRow}>
-// //           <TouchableOpacity onPress={handleBack} activeOpacity={0.7}>
-// //             <Ionicons name="chevron-back" size={24} color="#ffffff" />
-// //           </TouchableOpacity>
-// //           <View style={styles.headerCenter}>
-// //             <Text style={styles.headerTitle}>Nexus Overview</Text>
-// //             <Text style={styles.headerSubtitle}>Settings for this Nexus only.</Text>
-// //           </View>
-// //           <View style={{ width: 24 }} />
-// //         </View>
-
-// //         {/* Nexus name */}
-// //         <View style={styles.section}>
-// //           <Text style={styles.label}>Nexus name</Text>
-// //           <View style={styles.inputWrapper}>
-// //             <TextInput
-// //               style={styles.input}
-// //               value={nexusName}
-// //               onChangeText={setNexusName}
-// //               placeholder="Enter nexus name"
-// //               placeholderTextColor="rgba(255,255,255,0.5)"
-// //             />
-// //           </View>
-// //         </View>
-
-// //         {/* Inactive Settings */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>Inactive Settings</Text>
-// //           </View>
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseInactiveSpace}
-// //           >
-// //             <Text style={styles.rowLabel}>Inactive Space</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{inactiveSpace}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseTimeout}
-// //           >
-// //             <Text style={styles.rowLabel}>Timeout</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{timeoutValue}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-// //         </View>
-
-// //         {/* System & Community Signals */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>System & Community Signals</Text>
-// //           </View>
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseSystemSpace}
-// //           >
-// //             <Text style={styles.rowLabel}>System Space</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{systemSpace}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Join Message</Text>
-// //             <Switch
-// //               value={joinMessageEnabled}
-// //               onValueChange={setJoinMessageEnabled}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-// //         </View>
-
-// //         {/* Member Visibility & History */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>Member Visibility & History</Text>
-// //           </View>
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show join/leave events</Text>
-// //             <Switch
-// //               value={showJoinLeave}
-// //               onValueChange={setShowJoinLeave}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show role changes</Text>
-// //             <Switch
-// //               value={showRoleChanges}
-// //               onValueChange={setShowRoleChanges}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show username changes</Text>
-// //             <Switch
-// //               value={showUsernameChanges}
-// //               onValueChange={setShowUsernameChanges}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <Text style={styles.cardFooterNote}>
-// //             Changes apply only to this Nexus.
-// //           </Text>
-// //         </View>
-
-// //         {/* Delete Nexus */}
-// //         <TouchableOpacity
-// //           style={styles.deleteButton}
-// //           activeOpacity={0.85}
-// //           onPress={handleDelete}
-// //         >
-// //           <Ionicons
-// //             name="trash-outline"
-// //             size={18}
-// //             color="#FF6B6B"
-// //             style={{ marginRight: 8 }}
-// //           />
-// //           <Text style={styles.deleteButtonText}>Delete Nexus</Text>
-// //         </TouchableOpacity>
-
-// //         {/* Save + Reset */}
-// //         <TouchableOpacity
-// //           style={styles.saveButton}
-// //           activeOpacity={0.85}
-// //           onPress={handleSave}
-// //         >
-// //           <Text style={styles.saveButtonText}>Save</Text>
-// //         </TouchableOpacity>
-
-// //         <TouchableOpacity
-// //           onPress={handleReset}
-// //           activeOpacity={0.7}
-// //           style={{ alignSelf: "center", marginTop: 8, marginBottom: 24 }}
-// //         >
-// //           <Text style={styles.resetText}>Reset to Default</Text>
-// //         </TouchableOpacity>
-// //       </ScrollView>
-// //     </View>
-// //   );
-// // }
-
-// // const CARD_RADIUS = 22;
-
-// // const styles = StyleSheet.create({
-// //   container: {
-// //     flex: 1,
-// //     backgroundColor: "#050B18",
-// //   },
-
-// //   fakeStatusBar: {
-// //     marginTop: 8 + (Platform.OS === "ios" ? 12 : StatusBar.currentHeight || 0),
-// //     paddingHorizontal: 20,
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //     justifyContent: "space-between",
-// //   },
-// //   timeText: {
-// //     color: "#ffffff",
-// //     fontSize: 16,
-// //     fontWeight: "600",
-// //   },
-// //   fakeStatusIcons: {
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //   },
-// //   fakeIcon: {
-// //     marginLeft: 6,
-// //   },
-
-// //   scrollContent: {
-// //     paddingBottom: 32,
-// //     paddingHorizontal: 20,
-// //   },
-
-// //   headerRow: {
-// //     marginTop: 12,
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //     marginBottom: 20,
-// //   },
-// //   headerCenter: {
-// //     flex: 1,
-// //     alignItems: "center",
-// //   },
-// //   headerTitle: {
-// //     color: "#ffffff",
-// //     fontSize: 18,
-// //     fontWeight: "600",
-// //   },
-// //   headerSubtitle: {
-// //     marginTop: 2,
-// //     fontSize: 11,
-// //     color: "rgba(255,255,255,0.7)",
-// //   },
-
-// //   section: {
-// //     marginBottom: 16,
-// //   },
-// //   label: {
-// //     color: "rgba(255,255,255,0.85)",
-// //     fontSize: 13,
-// //     marginBottom: 10,
-// //     fontWeight: "500",
-// //   },
-// //   inputWrapper: {
-// //     borderRadius: 20,
-// //     backgroundColor: "#0B1730",
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //     overflow: "hidden",
-// //   },
-// //   input: {
-// //     height: 52,
-// //     paddingHorizontal: 16,
-// //     color: "#ffffff",
-// //     fontSize: 14,
-// //   },
-
-// //   card: {
-// //     marginTop: 10,
-// //     borderRadius: CARD_RADIUS,
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //     backgroundColor: "#060F24",
-// //     paddingTop: 18,
-// //     paddingHorizontal: 16,
-// //     paddingBottom: 12,
-// //   },
-// //   cardLabelPill: {
-// //     position: "absolute",
-// //     top: -12,
-// //     left: 24,
-// //     paddingHorizontal: 10,
-// //     paddingVertical: 4,
-// //     borderRadius: 12,
-// //     backgroundColor: "#050B18",
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //   },
-// //   cardLabelText: {
-// //     color: "rgba(255,255,255,0.85)",
-// //     fontSize: 11,
-// //     fontWeight: "500",
-// //   },
-
-// //   row: {
-// //     flexDirection: "row",
-// //     justifyContent: "space-between",
-// //     alignItems: "center",
-// //     paddingVertical: 10,
-// //   },
-// //   rowDivider: {
-// //     height: 1,
-// //     backgroundColor: "rgba(255,255,255,0.05)",
-// //   },
-// //   rowLabel: {
-// //     color: "#ffffff",
-// //     fontSize: 13,
-// //   },
-// //   rowRight: {
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //   },
-// //   rowValue: {
-// //     color: "rgba(255,255,255,0.7)",
-// //     fontSize: 12,
-// //   },
-
-// //   cardFooterNote: {
-// //     marginTop: 8,
-// //     fontSize: 11,
-// //     color: "rgba(255,255,255,0.65)",
-// //   },
-
-// //   deleteButton: {
-// //     marginTop: 24,
-// //     alignSelf: "center",
-// //     width: width * 0.75,
-// //     height: 48,
-// //     borderRadius: 24,
-// //     borderWidth: 1,
-// //     borderColor: "#FF4B4B",
-// //     backgroundColor: "rgba(255, 40, 40, 0.1)",
-// //     flexDirection: "row",
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //   },
-// //   deleteButtonText: {
-// //     color: "#FF6B6B",
-// //     fontSize: 14,
-// //     fontWeight: "500",
-// //   },
-
-// //   saveButton: {
-// //     marginTop: 18,
-// //     alignSelf: "center",
-// //     width: width * 0.5,
-// //     height: 50,
-// //     borderRadius: 25,
-// //     backgroundColor: "#3255BA",
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //     shadowColor: "#000",
-// //     shadowOpacity: 0.35,
-// //     shadowRadius: 12,
-// //     shadowOffset: { width: 0, height: 8 },
-// //     elevation: 5,
-// //   },
-// //   saveButtonText: {
-// //     color: "#ffffff",
-// //     fontSize: 16,
-// //     fontWeight: "600",
-// //   },
-
-// //   resetText: {
-// //     color: "#9FB4FF",
-// //     fontSize: 13,
-// //   },
-// // });
-
-// // import React, { useState } from "react";
-// // import {
-// //   View,
-// //   Text,
-// //   StyleSheet,
-// //   StatusBar,
-// //   Dimensions,
-// //   Platform,
-// //   ScrollView,
-// //   TouchableOpacity,
-// //   TextInput,
-// //   Switch,
-// //   Alert,
-// // } from "react-native";
-// // import { Ionicons } from "@expo/vector-icons";
-
-// // const { width, height } = Dimensions.get("window");
-
-// // // 👇 इथे तुझा backend base URL टाक:
-// // const API_BASE_URL = "http://192.168.1.5:5000"; // e.g. http://192.168.1.5:5000
-
-// // export default function Nexus_Overview({ navigation, route }) {
-// //   // 👇 Nexus id route params मधून घे (navigation.navigate करताना पाठवायचा)
-// //   const nexusId = route?.params?.nexusId;
-
-// //   const [nexusName, setNexusName] = useState("Shusshi Clean");
-
-// //   const [inactiveSpace, setInactiveSpace] = useState("No Inactive Space");
-// //   const [timeoutValue, setTimeoutValue] = useState("5 minutes");
-
-// //   const [systemSpace, setSystemSpace] = useState("General");
-// //   const [joinMessageEnabled, setJoinMessageEnabled] = useState(true);
-
-// //   const [showJoinLeave, setShowJoinLeave] = useState(true);
-// //   const [showRoleChanges, setShowRoleChanges] = useState(true);
-// //   const [showUsernameChanges, setShowUsernameChanges] = useState(true);
-
-// //   // optional: delete दरम्यान multiple tap टाळण्यासाठी
-// //   const [deleting, setDeleting] = useState(false);
-
-// //   const handleBack = () => {
-// //     if (navigation?.goBack) navigation.goBack();
-// //   };
-
-// //   const handleSave = () => {
-// //     Alert.alert(
-// //       "Saved",
-// //       `Nexus name: ${nexusName}\nInactive: ${inactiveSpace}\nTimeout: ${timeoutValue}\nSystem Space: ${systemSpace}`
-// //     );
-// //   };
-
-// //   const handleReset = () => {
-// //     setNexusName("Shusshi Clean");
-// //     setInactiveSpace("No Inactive Space");
-// //     setTimeoutValue("5 minutes");
-// //     setSystemSpace("General");
-// //     setJoinMessageEnabled(true);
-// //     setShowJoinLeave(true);
-// //     setShowRoleChanges(true);
-// //     setShowUsernameChanges(true);
-// //     Alert.alert("Reset", "Settings reset to default (demo).");
-// //   };
-
-// //   // 🔥 इथून actual backend delete call करतो
-// //   const deleteNexusFromServer = async () => {
-// //     if (!nexusId) {
-// //       Alert.alert(
-// //         "Error",
-// //         "Nexus ID सापडला नाही. कृपया हा screen navigate करताना nexusId पाठवा."
-// //       );
-// //       return;
-// //     }
-
-// //     if (deleting) return; // already in progress
-
-// //     try {
-// //       setDeleting(true);
-
-// //       const response = await fetch(`${API_BASE_URL}/nexus/${nexusId}`, {
-// //         method: "DELETE",
-// //         headers: {
-// //           "Content-Type": "application/json",
-// //           // जर auth token वगैरे असेल तर:
-// //           // Authorization: `Bearer ${token}`
-// //         },
-// //       });
-
-// //       const json = await response.json().catch(() => ({}));
-
-// //       if (!response.ok || !json.success) {
-// //         Alert.alert(
-// //           "Delete Failed",
-// //           json.message || "Could not delete this Nexus."
-// //         );
-// //         return;
-// //       }
-
-// //       // Success 🎉
-// //       Alert.alert("Deleted", "Nexus deleted successfully.", [
-// //         {
-// //           text: "OK",
-// //           onPress: () => {
-// //             if (navigation?.goBack) {
-// //               navigation.goBack();
-// //             }
-// //           },
-// //         },
-// //       ]);
-// //     } catch (err) {
-// //       console.log("deleteNexus error =>", err);
-// //       Alert.alert("Error", "Network error while deleting Nexus.");
-// //     } finally {
-// //       setDeleting(false);
-// //     }
-// //   };
-
-// //   const handleDelete = () => {
-// //     if (deleting) return;
-
-// //     Alert.alert(
-// //       "Delete Nexus",
-// //       "Are you sure you want to delete this Nexus?",
-// //       [
-// //         { text: "Cancel", style: "cancel" },
-// //         {
-// //           text: "Delete",
-// //           style: "destructive",
-// //           onPress: deleteNexusFromServer, // 👈 इथे backend call
-// //         },
-// //       ]
-// //     );
-// //   };
-
-// //   const chooseInactiveSpace = () => {
-// //     Alert.alert("Inactive Space", "Choose inactive space (demo)", [
-// //       {
-// //         text: "No Inactive Space",
-// //         onPress: () => setInactiveSpace("No Inactive Space"),
-// //       },
-// //       {
-// //         text: "Archive After 7 days",
-// //         onPress: () => setInactiveSpace("Archive After 7 days"),
-// //       },
-// //       { text: "Cancel", style: "cancel" },
-// //     ]);
-// //   };
-
-// //   const chooseTimeout = () => {
-// //     Alert.alert("Timeout", "Choose timeout (demo)", [
-// //       { text: "5 minutes", onPress: () => setTimeoutValue("5 minutes") },
-// //       { text: "15 minutes", onPress: () => setTimeoutValue("15 minutes") },
-// //       { text: "30 minutes", onPress: () => setTimeoutValue("30 minutes") },
-// //       { text: "Cancel", style: "cancel" },
-// //     ]);
-// //   };
-
-// //   const chooseSystemSpace = () => {
-// //     Alert.alert("System Space", "Choose system space (demo)", [
-// //       { text: "General", onPress: () => setSystemSpace("General") },
-// //       { text: "Announcements", onPress: () => setSystemSpace("Announcements") },
-// //       { text: "Cancel", style: "cancel" },
-// //     ]);
-// //   };
-
-// //   return (
-// //     <View style={styles.container}>
-// //       <StatusBar barStyle="light-content" />
-
-// //       {/* Fake status bar row */}
-// //       <View style={styles.fakeStatusBar}>
-// //         <Text style={styles.timeText}>9:41</Text>
-// //         <View style={styles.fakeStatusIcons}>
-// //           <Ionicons
-// //             name="cellular"
-// //             size={16}
-// //             color="#ffffff"
-// //             style={styles.fakeIcon}
-// //           />
-// //           <Ionicons name="wifi" size={16} color="#ffffff" style={styles.fakeIcon} />
-// //           <Ionicons
-// //             name="battery-full"
-// //             size={20}
-// //             color="#ffffff"
-// //             style={styles.fakeIcon}
-// //           />
-// //         </View>
-// //       </View>
-
-// //       <ScrollView
-// //         style={{ flex: 1 }}
-// //         contentContainerStyle={styles.scrollContent}
-// //         showsVerticalScrollIndicator={false}
-// //         keyboardShouldPersistTaps="handled"
-// //       >
-// //         {/* Header */}
-// //         <View style={styles.headerRow}>
-// //           <TouchableOpacity onPress={handleBack} activeOpacity={0.7}>
-// //             <Ionicons name="chevron-back" size={24} color="#ffffff" />
-// //           </TouchableOpacity>
-// //           <View style={styles.headerCenter}>
-// //             <Text style={styles.headerTitle}>Nexus Overview</Text>
-// //             <Text style={styles.headerSubtitle}>
-// //               Settings for this Nexus only.
-// //             </Text>
-// //           </View>
-// //           <View style={{ width: 24 }} />
-// //         </View>
-
-// //         {/* Nexus name */}
-// //         <View style={styles.section}>
-// //           <Text style={styles.label}>Nexus name</Text>
-// //           <View style={styles.inputWrapper}>
-// //             <TextInput
-// //               style={styles.input}
-// //               value={nexusName}
-// //               onChangeText={setNexusName}
-// //               placeholder="Enter nexus name"
-// //               placeholderTextColor="rgba(255,255,255,0.5)"
-// //             />
-// //           </View>
-// //         </View>
-
-// //         {/* Inactive Settings */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>Inactive Settings</Text>
-// //           </View>
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseInactiveSpace}
-// //           >
-// //             <Text style={styles.rowLabel}>Inactive Space</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{inactiveSpace}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseTimeout}
-// //           >
-// //             <Text style={styles.rowLabel}>Timeout</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{timeoutValue}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-// //         </View>
-
-// //         {/* System & Community Signals */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>
-// //               System & Community Signals
-// //             </Text>
-// //           </View>
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseSystemSpace}
-// //           >
-// //             <Text style={styles.rowLabel}>System Space</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{systemSpace}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Join Message</Text>
-// //             <Switch
-// //               value={joinMessageEnabled}
-// //               onValueChange={setJoinMessageEnabled}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-// //         </View>
-
-// //         {/* Member Visibility & History */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>
-// //               Member Visibility & History
-// //             </Text>
-// //           </View>
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show join/leave events</Text>
-// //             <Switch
-// //               value={showJoinLeave}
-// //               onValueChange={setShowJoinLeave}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show role changes</Text>
-// //             <Switch
-// //               value={showRoleChanges}
-// //               onValueChange={setShowRoleChanges}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show username changes</Text>
-// //             <Switch
-// //               value={showUsernameChanges}
-// //               onValueChange={setShowUsernameChanges}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <Text style={styles.cardFooterNote}>
-// //             Changes apply only to this Nexus.
-// //           </Text>
-// //         </View>
-
-// //         {/* Delete Nexus */}
-// //         <TouchableOpacity
-// //           style={styles.deleteButton}
-// //           activeOpacity={0.85}
-// //           onPress={handleDelete}
-// //           disabled={deleting}
-// //         >
-// //           <Ionicons
-// //             name="trash-outline"
-// //             size={18}
-// //             color="#FF6B6B"
-// //             style={{ marginRight: 8 }}
-// //           />
-// //           <Text style={styles.deleteButtonText}>
-// //             {deleting ? "Deleting..." : "Delete Nexus"}
-// //           </Text>
-// //         </TouchableOpacity>
-
-// //         {/* Save + Reset */}
-// //         <TouchableOpacity
-// //           style={styles.saveButton}
-// //           activeOpacity={0.85}
-// //           onPress={handleSave}
-// //         >
-// //           <Text style={styles.saveButtonText}>Save</Text>
-// //         </TouchableOpacity>
-
-// //         <TouchableOpacity
-// //           onPress={handleReset}
-// //           activeOpacity={0.7}
-// //           style={{ alignSelf: "center", marginTop: 8, marginBottom: 24 }}
-// //         >
-// //           <Text style={styles.resetText}>Reset to Default</Text>
-// //         </TouchableOpacity>
-// //       </ScrollView>
-// //     </View>
-// //   );
-// // }
-
-// // const CARD_RADIUS = 22;
-
-// // const styles = StyleSheet.create({
-// //   container: {
-// //     flex: 1,
-// //     backgroundColor: "#050B18",
-// //   },
-// //   fakeStatusBar: {
-// //     marginTop: 8 + (Platform.OS === "ios" ? 12 : StatusBar.currentHeight || 0),
-// //     paddingHorizontal: 20,
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //     justifyContent: "space-between",
-// //   },
-// //   timeText: {
-// //     color: "#ffffff",
-// //     fontSize: 16,
-// //     fontWeight: "600",
-// //   },
-// //   fakeStatusIcons: {
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //   },
-// //   fakeIcon: {
-// //     marginLeft: 6,
-// //   },
-// //   scrollContent: {
-// //     paddingBottom: 32,
-// //     paddingHorizontal: 20,
-// //   },
-// //   headerRow: {
-// //     marginTop: 12,
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //     marginBottom: 20,
-// //   },
-// //   headerCenter: {
-// //     flex: 1,
-// //     alignItems: "center",
-// //   },
-// //   headerTitle: {
-// //     color: "#ffffff",
-// //     fontSize: 18,
-// //     fontWeight: "600",
-// //   },
-// //   headerSubtitle: {
-// //     marginTop: 2,
-// //     fontSize: 11,
-// //     color: "rgba(255,255,255,0.7)",
-// //   },
-// //   section: {
-// //     marginBottom: 16,
-// //   },
-// //   label: {
-// //     color: "rgba(255,255,255,0.85)",
-// //     fontSize: 13,
-// //     marginBottom: 10,
-// //     fontWeight: "500",
-// //   },
-// //   inputWrapper: {
-// //     borderRadius: 20,
-// //     backgroundColor: "#0B1730",
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //     overflow: "hidden",
-// //   },
-// //   input: {
-// //     height: 52,
-// //     paddingHorizontal: 16,
-// //     color: "#ffffff",
-// //     fontSize: 14,
-// //   },
-// //   card: {
-// //     marginTop: 10,
-// //     borderRadius: CARD_RADIUS,
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //     backgroundColor: "#060F24",
-// //     paddingTop: 18,
-// //     paddingHorizontal: 16,
-// //     paddingBottom: 12,
-// //   },
-// //   cardLabelPill: {
-// //     position: "absolute",
-// //     top: -12,
-// //     left: 24,
-// //     paddingHorizontal: 10,
-// //     paddingVertical: 4,
-// //     borderRadius: 12,
-// //     backgroundColor: "#050B18",
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //   },
-// //   cardLabelText: {
-// //     color: "rgba(255,255,255,0.85)",
-// //     fontSize: 11,
-// //     fontWeight: "500",
-// //   },
-// //   row: {
-// //     flexDirection: "row",
-// //     justifyContent: "space-between",
-// //     alignItems: "center",
-// //     paddingVertical: 10,
-// //   },
-// //   rowDivider: {
-// //     height: 1,
-// //     backgroundColor: "rgba(255,255,255,0.05)",
-// //   },
-// //   rowLabel: {
-// //     color: "#ffffff",
-// //     fontSize: 13,
-// //   },
-// //   rowRight: {
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //   },
-// //   rowValue: {
-// //     color: "rgba(255,255,255,0.7)",
-// //     fontSize: 12,
-// //   },
-// //   cardFooterNote: {
-// //     marginTop: 8,
-// //     fontSize: 11,
-// //     color: "rgba(255,255,255,0.65)",
-// //   },
-// //   deleteButton: {
-// //     marginTop: 24,
-// //     alignSelf: "center",
-// //     width: width * 0.75,
-// //     height: 48,
-// //     borderRadius: 24,
-// //     borderWidth: 1,
-// //     borderColor: "#FF4B4B",
-// //     backgroundColor: "rgba(255, 40, 40, 0.1)",
-// //     flexDirection: "row",
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //   },
-// //   deleteButtonText: {
-// //     color: "#FF6B6B",
-// //     fontSize: 14,
-// //     fontWeight: "500",
-// //   },
-// //   saveButton: {
-// //     marginTop: 18,
-// //     alignSelf: "center",
-// //     width: width * 0.5,
-// //     height: 50,
-// //     borderRadius: 25,
-// //     backgroundColor: "#3255BA",
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //     shadowColor: "#000",
-// //     shadowOpacity: 0.35,
-// //     shadowRadius: 12,
-// //     shadowOffset: { width: 0, height: 8 },
-// //     elevation: 5,
-// //   },
-// //   saveButtonText: {
-// //     color: "#ffffff",
-// //     fontSize: 16,
-// //     fontWeight: "600",
-// //   },
-// //   resetText: {
-// //     color: "#9FB4FF",
-// //     fontSize: 13,
-// //   },
-// // });
-// // import React, { useState } from "react";
-// // import {
-// //   View,
-// //   Text,
-// //   StyleSheet,
-// //   StatusBar,
-// //   Dimensions,
-// //   Platform,
-// //   ScrollView,
-// //   TouchableOpacity,
-// //   TextInput,
-// //   Switch,
-// //   Alert,
-// // } from "react-native";
-// // import { Ionicons } from "@expo/vector-icons";
-
-// // const { width, height } = Dimensions.get("window");
-
-// // // 🔗 इथे तुझा backend base URL
-// // const API_BASE_URL = "http://192.168.1.5:3000/api/nexus/:id}"; // 👈 लक्ष दे – /api जोडले
-
-// // export default function Nexus_Overview({ navigation, route }) {
-// //   // 👇 params मधून id + नाव घ्या
-// //   const nexusId = route?.params?.nexusId;
-// //   const initialName = route?.params?.nexusName || "Shusshi Clean";
-
-// //   const [nexusName, setNexusName] = useState(initialName);
-
-// //   const [inactiveSpace, setInactiveSpace] = useState("No Inactive Space");
-// //   const [timeoutValue, setTimeoutValue] = useState("5 minutes");
-
-// //   const [systemSpace, setSystemSpace] = useState("General");
-// //   const [joinMessageEnabled, setJoinMessageEnabled] = useState(true);
-
-// //   const [showJoinLeave, setShowJoinLeave] = useState(true);
-// //   const [showRoleChanges, setShowRoleChanges] = useState(true);
-// //   const [showUsernameChanges, setShowUsernameChanges] = useState(true);
-
-// //   // delete दरम्यान button disable करण्यासाठी
-// //   const [deleting, setDeleting] = useState(false);
-
-// //   const handleBack = () => {
-// //     if (navigation?.goBack) navigation.goBack();
-// //   };
-
-// //   const handleSave = () => {
-// //     Alert.alert(
-// //       "Saved",
-// //       `Nexus name: ${nexusName}\nInactive: ${inactiveSpace}\nTimeout: ${timeoutValue}\nSystem Space: ${systemSpace}`
-// //     );
-// //   };
-
-// //   const handleReset = () => {
-// //     setNexusName(initialName);
-// //     setInactiveSpace("No Inactive Space");
-// //     setTimeoutValue("5 minutes");
-// //     setSystemSpace("General");
-// //     setJoinMessageEnabled(true);
-// //     setShowJoinLeave(true);
-// //     setShowRoleChanges(true);
-// //     setShowUsernameChanges(true);
-// //     Alert.alert("Reset", "Settings reset to default (demo).");
-// //   };
-
-// //   // 🔥 actual backend delete call
-// //   const deleteNexusFromServer = async () => {
-// //     if (!nexusId) {
-// //       Alert.alert(
-// //         "Error",
-// //         "Nexus ID not found. Don’t forget to pass the nexusId when opening this screen."
-// //       );
-// //       return;
-// //     }
-
-// //     if (deleting) return;
-
-// //     try {
-// //       setDeleting(true);
-
-// //       const response = await fetch(`${API_BASE_URL}/api/nexus/${nexusId}`, {
-// //         method: "DELETE",
-// //         headers: {
-// //           "Content-Type": "application/json",
-// //           // येथे auth token असेल तर add कर:
-// //           // Authorization: `Bearer ${token}`,
-// //         },
-// //       });
-
-// //       const json = await response.json().catch(() => ({}));
-
-// //       if (!response.ok || !json.success) {
-// //         Alert.alert(
-// //           "Delete Failed",
-// //           json.message || "Could not delete this Nexus."
-// //         );
-// //         return;
-// //       }
-
-// //       // ✅ success
-// //       Alert.alert("Deleted", "Nexus deleted successfully.", [
-// //         {
-// //           text: "OK",
-// //           onPress: () => {
-// //             if (navigation?.goBack) {
-// //               navigation.goBack(); // मागच्या list screen वर परत
-// //             }
-// //           },
-// //         },
-// //       ]);
-// //     } catch (err) {
-// //       console.log("deleteNexus error =>", err);
-// //       Alert.alert("Error", "Network error while deleting Nexus.");
-// //     } finally {
-// //       setDeleting(false);
-// //     }
-// //   };
-
-// //   const handleDelete = () => {
-// //     if (deleting) return;
-
-// //     Alert.alert("Delete Nexus", "Are you sure you want to delete this Nexus?", [
-// //       { text: "Cancel", style: "cancel" },
-// //       {
-// //         text: "Delete",
-// //         style: "destructive",
-// //         onPress: deleteNexusFromServer, // 👈 backend call
-// //       },
-// //     ]);
-// //   };
-
-// //   const chooseInactiveSpace = () => {
-// //     Alert.alert("Inactive Space", "Choose inactive space (demo)", [
-// //       {
-// //         text: "No Inactive Space",
-// //         onPress: () => setInactiveSpace("No Inactive Space"),
-// //       },
-// //       {
-// //         text: "Archive After 7 days",
-// //         onPress: () => setInactiveSpace("Archive After 7 days"),
-// //       },
-// //       { text: "Cancel", style: "cancel" },
-// //     ]);
-// //   };
-
-// //   const chooseTimeout = () => {
-// //     Alert.alert("Timeout", "Choose timeout (demo)", [
-// //       { text: "5 minutes", onPress: () => setTimeoutValue("5 minutes") },
-// //       { text: "15 minutes", onPress: () => setTimeoutValue("15 minutes") },
-// //       { text: "30 minutes", onPress: () => setTimeoutValue("30 minutes") },
-// //       { text: "Cancel", style: "cancel" },
-// //     ]);
-// //   };
-
-// //   const chooseSystemSpace = () => {
-// //     Alert.alert("System Space", "Choose system space (demo)", [
-// //       { text: "General", onPress: () => setSystemSpace("General") },
-// //       { text: "Announcements", onPress: () => setSystemSpace("Announcements") },
-// //       { text: "Cancel", style: "cancel" },
-// //     ]);
-// //   };
-
-// //   return (
-// //     <View style={styles.container}>
-// //       <StatusBar barStyle="light-content" />
-
-// //       {/* Fake status bar row */}
-// //       <View style={styles.fakeStatusBar}>
-// //         <Text style={styles.timeText}>9:41</Text>
-// //         <View style={styles.fakeStatusIcons}>
-// //           <Ionicons
-// //             name="cellular"
-// //             size={16}
-// //             color="#ffffff"
-// //             style={styles.fakeIcon}
-// //           />
-// //           <Ionicons name="wifi" size={16} color="#ffffff" style={styles.fakeIcon} />
-// //           <Ionicons
-// //             name="battery-full"
-// //             size={20}
-// //             color="#ffffff"
-// //             style={styles.fakeIcon}
-// //           />
-// //         </View>
-// //       </View>
-
-// //       <ScrollView
-// //         style={{ flex: 1 }}
-// //         contentContainerStyle={styles.scrollContent}
-// //         showsVerticalScrollIndicator={false}
-// //         keyboardShouldPersistTaps="handled"
-// //       >
-// //         {/* Header */}
-// //         <View style={styles.headerRow}>
-// //           <TouchableOpacity onPress={handleBack} activeOpacity={0.7}>
-// //             <Ionicons name="chevron-back" size={24} color="#ffffff" />
-// //           </TouchableOpacity>
-// //           <View style={styles.headerCenter}>
-// //             <Text style={styles.headerTitle}>Nexus Overview</Text>
-// //             <Text style={styles.headerSubtitle}>
-// //               Settings for this Nexus only.
-// //             </Text>
-// //           </View>
-// //           <View style={{ width: 24 }} />
-// //         </View>
-
-// //         {/* Nexus name */}
-// //         <View style={styles.section}>
-// //           <Text style={styles.label}>Nexus name</Text>
-// //           <View style={styles.inputWrapper}>
-// //             <TextInput
-// //               style={styles.input}
-// //               value={nexusName}
-// //               onChangeText={setNexusName}
-// //               placeholder="Enter nexus name"
-// //               placeholderTextColor="rgba(255,255,255,0.5)"
-// //             />
-// //           </View>
-// //         </View>
-
-// //         {/* Inactive Settings */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>Inactive Settings</Text>
-// //           </View>
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseInactiveSpace}
-// //           >
-// //             <Text style={styles.rowLabel}>Inactive Space</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{inactiveSpace}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseTimeout}
-// //           >
-// //             <Text style={styles.rowLabel}>Timeout</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{timeoutValue}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-// //         </View>
-
-// //         {/* System & Community Signals */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>
-// //               System & Community Signals
-// //             </Text>
-// //           </View>
-
-// //           <TouchableOpacity
-// //             style={styles.row}
-// //             activeOpacity={0.8}
-// //             onPress={chooseSystemSpace}
-// //           >
-// //             <Text style={styles.rowLabel}>System Space</Text>
-// //             <View style={styles.rowRight}>
-// //               <Text style={styles.rowValue}>{systemSpace}</Text>
-// //               <Ionicons
-// //                 name="chevron-down"
-// //                 size={14}
-// //                 color="#9FB4FF"
-// //                 style={{ marginLeft: 8 }}
-// //               />
-// //             </View>
-// //           </TouchableOpacity>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Join Message</Text>
-// //             <Switch
-// //               value={joinMessageEnabled}
-// //               onValueChange={setJoinMessageEnabled}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-// //         </View>
-
-// //         {/* Member Visibility & History */}
-// //         <View style={styles.card}>
-// //           <View style={styles.cardLabelPill}>
-// //             <Text style={styles.cardLabelText}>
-// //               Member Visibility & History
-// //             </Text>
-// //           </View>
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show join/leave events</Text>
-// //             <Switch
-// //               value={showJoinLeave}
-// //               onValueChange={setShowJoinLeave}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show role changes</Text>
-// //             <Switch
-// //               value={showRoleChanges}
-// //               onValueChange={setShowRoleChanges}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <View style={styles.rowDivider} />
-
-// //           <View style={styles.row}>
-// //             <Text style={styles.rowLabel}>Show username changes</Text>
-// //             <Switch
-// //               value={showUsernameChanges}
-// //               onValueChange={setShowUsernameChanges}
-// //               trackColor={{ false: "#29314D", true: "#4A7FE8" }}
-// //               thumbColor="#ffffff"
-// //               ios_backgroundColor="#29314D"
-// //               style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-// //             />
-// //           </View>
-
-// //           <Text style={styles.cardFooterNote}>
-// //             Changes apply only to this Nexus.
-// //           </Text>
-// //         </View>
-
-// //         {/* Delete Nexus */}
-// //         <TouchableOpacity
-// //           style={styles.deleteButton}
-// //           activeOpacity={0.85}
-// //           onPress={handleDelete}
-// //           disabled={deleting}
-// //         >
-// //           <Ionicons
-// //             name="trash-outline"
-// //             size={18}
-// //             color="#FF6B6B"
-// //             style={{ marginRight: 8 }}
-// //           />
-// //           <Text style={styles.deleteButtonText}>
-// //             {deleting ? "Deleting..." : "Delete Nexus"}
-// //           </Text>
-// //         </TouchableOpacity>
-
-// //         {/* Save + Reset */}
-// //         <TouchableOpacity
-// //           style={styles.saveButton}
-// //           activeOpacity={0.85}
-// //           onPress={handleSave}
-// //         >
-// //           <Text style={styles.saveButtonText}>Save</Text>
-// //         </TouchableOpacity>
-
-// //         <TouchableOpacity
-// //           onPress={handleReset}
-// //           activeOpacity={0.7}
-// //           style={{ alignSelf: "center", marginTop: 8, marginBottom: 24 }}
-// //         >
-// //           <Text style={styles.resetText}>Reset to Default</Text>
-// //         </TouchableOpacity>
-// //       </ScrollView>
-// //     </View>
-// //   );
-// // }
-
-// // const CARD_RADIUS = 22;
-
-// // const styles = StyleSheet.create({
-// //   container: {
-// //     flex: 1,
-// //     backgroundColor: "#050B18",
-// //   },
-// //   fakeStatusBar: {
-// //     marginTop: 8 + (Platform.OS === "ios" ? 12 : StatusBar.currentHeight || 0),
-// //     paddingHorizontal: 20,
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //     justifyContent: "space-between",
-// //   },
-// //   timeText: {
-// //     color: "#ffffff",
-// //     fontSize: 16,
-// //     fontWeight: "600",
-// //   },
-// //   fakeStatusIcons: {
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //   },
-// //   fakeIcon: {
-// //     marginLeft: 6,
-// //   },
-// //   scrollContent: {
-// //     paddingBottom: 32,
-// //     paddingHorizontal: 20,
-// //   },
-// //   headerRow: {
-// //     marginTop: 12,
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //     marginBottom: 20,
-// //   },
-// //   headerCenter: {
-// //     flex: 1,
-// //     alignItems: "center",
-// //   },
-// //   headerTitle: {
-// //     color: "#ffffff",
-// //     fontSize: 18,
-// //     fontWeight: "600",
-// //   },
-// //   headerSubtitle: {
-// //     marginTop: 2,
-// //     fontSize: 11,
-// //     color: "rgba(255,255,255,0.7)",
-// //   },
-// //   section: {
-// //     marginBottom: 16,
-// //   },
-// //   label: {
-// //     color: "rgba(255,255,255,0.85)",
-// //     fontSize: 13,
-// //     marginBottom: 10,
-// //     fontWeight: "500",
-// //   },
-// //   inputWrapper: {
-// //     borderRadius: 20,
-// //     backgroundColor: "#0B1730",
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //     overflow: "hidden",
-// //   },
-// //   input: {
-// //     height: 52,
-// //     paddingHorizontal: 16,
-// //     color: "#ffffff",
-// //     fontSize: 14,
-// //   },
-// //   card: {
-// //     marginTop: 10,
-// //     borderRadius: CARD_RADIUS,
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //     backgroundColor: "#060F24",
-// //     paddingTop: 18,
-// //     paddingHorizontal: 16,
-// //     paddingBottom: 12,
-// //   },
-// //   cardLabelPill: {
-// //     position: "absolute",
-// //     top: -12,
-// //     left: 24,
-// //     paddingHorizontal: 10,
-// //     paddingVertical: 4,
-// //     borderRadius: 12,
-// //     backgroundColor: "#050B18",
-// //     borderWidth: 1,
-// //     borderColor: "#2D57C8",
-// //   },
-// //   cardLabelText: {
-// //     color: "rgba(255,255,255,0.85)",
-// //     fontSize: 11,
-// //     fontWeight: "500",
-// //   },
-// //   row: {
-// //     flexDirection: "row",
-// //     justifyContent: "space-between",
-// //     alignItems: "center",
-// //     paddingVertical: 10,
-// //   },
-// //   rowDivider: {
-// //     height: 1,
-// //     backgroundColor: "rgba(255,255,255,0.05)",
-// //   },
-// //   rowLabel: {
-// //     color: "#ffffff",
-// //     fontSize: 13,
-// //   },
-// //   rowRight: {
-// //     flexDirection: "row",
-// //     alignItems: "center",
-// //   },
-// //   rowValue: {
-// //     color: "rgba(255,255,255,0.7)",
-// //     fontSize: 12,
-// //   },
-// //   cardFooterNote: {
-// //     marginTop: 8,
-// //     fontSize: 11,
-// //     color: "rgba(255,255,255,0.65)",
-// //   },
-// //   deleteButton: {
-// //     marginTop: 24,
-// //     alignSelf: "center",
-// //     width: width * 0.75,
-// //     height: 48,
-// //     borderRadius: 24,
-// //     borderWidth: 1,
-// //     borderColor: "#FF4B4B",
-// //     backgroundColor: "rgba(255, 40, 40, 0.1)",
-// //     flexDirection: "row",
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //   },
-// //   deleteButtonText: {
-// //     color: "#FF6B6B",
-// //     fontSize: 14,
-// //     fontWeight: "500",
-// //   },
-// //   saveButton: {
-// //     marginTop: 18,
-// //     alignSelf: "center",
-// //     width: width * 0.5,
-// //     height: 50,
-// //     borderRadius: 25,
-// //     backgroundColor: "#3255BA",
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //     shadowColor: "#000",
-// //     shadowOpacity: 0.35,
-// //     shadowRadius: 12,
-// //     shadowOffset: { width: 0, height: 8 },
-// //     elevation: 5,
-// //   },
-// //   saveButtonText: {
-// //     color: "#ffffff",
-// //     fontSize: 16,
-// //     fontWeight: "600",
-// //   },
-// //   resetText: {
-// //     color: "#9FB4FF",
-// //     fontSize: 13,
-// //   },
-// // });
-// import React, { useState } from "react";
-// import {
-//   View,
-//   Text,
-//   StyleSheet,
-//   StatusBar,
-//   Dimensions,
-//   Platform,
-//   ScrollView,
-//   TouchableOpacity,
-//   TextInput,
-//   Switch,
-//   Alert,
-// } from "react-native";
-// import { Ionicons } from "@expo/vector-icons";
-
-// const { width } = Dimensions.get("window");
-
-// // ✔ Correct base API URL (No :id here)
-// const API_BASE_URL = "http://192.168.1.5:3000/api/nexus";
-
-// export default function Nexus_Overview({ navigation, route }) {
-//   // ✔ params मधून id + नाव
-//   const nexusId = route?.params?.nexusId;
-//   const initialName = route?.params?.nexusName || "Shusshi Clean";
-
-//   const [nexusName, setNexusName] = useState(initialName);
-
-//   const [inactiveSpace, setInactiveSpace] = useState("No Inactive Space");
-//   const [timeoutValue, setTimeoutValue] = useState("5 minutes");
-
-//   const [systemSpace, setSystemSpace] = useState("General");
-//   const [joinMessageEnabled, setJoinMessageEnabled] = useState(true);
-
-//   const [showJoinLeave, setShowJoinLeave] = useState(true);
-//   const [showRoleChanges, setShowRoleChanges] = useState(true);
-//   const [showUsernameChanges, setShowUsernameChanges] = useState(true);
-
-//   const [deleting, setDeleting] = useState(false);
-
-//   const handleBack = () => navigation?.goBack?.();
-
-//   const handleSave = () => {
-//     Alert.alert(
-//       "Saved",
-//       `Nexus name: ${nexusName}\nInactive: ${inactiveSpace}\nTimeout: ${timeoutValue}\nSystem Space: ${systemSpace}`
-//     );
-//   };
-
-//   const handleReset = () => {
-//     setNexusName(initialName);
-//     setInactiveSpace("No Inactive Space");
-//     setTimeoutValue("5 minutes");
-//     setSystemSpace("General");
-//     setJoinMessageEnabled(true);
-//     setShowJoinLeave(true);
-//     setShowRoleChanges(true);
-//     setShowUsernameChanges(true);
-//     Alert.alert("Reset", "Settings reset to default (demo).");
-//   };
-
-//   // ⭐ Correct delete function
-//   const deleteNexusFromServer = async () => {
-//     if (!nexusId) {
-//       Alert.alert("Error", "Nexus ID missing.");
-//       return;
-//     }
-
-//     if (deleting) return;
-
-//     try {
-//       setDeleting(true);
-
-//       // ⭐ Correct URL => "/api/nexus/:id"
-//       const response = await fetch(`${API_BASE_URL}/${nexusId}`, {
-//         method: "DELETE",
-//         headers: {
-//           "Content-Type": "application/json",
-//           // Authorization: `Bearer ${token}`  (if required)
-//         },
-//       });
-
-//       let json = {};
-//       try {
-//         json = await response.json();
-//       } catch (parseErr) {
-//         throw new Error("Server did not return JSON. Check backend route.");
-//       }
-
-//       if (!response.ok || !json.success) {
-//         Alert.alert("Delete Failed", json.message || "Unable to delete Nexus.");
-//         return;
-//       }
-
-//       Alert.alert("Deleted", "Nexus deleted successfully.", [
-//         {
-//           text: "OK",
-//           onPress: () => navigation?.goBack?.(),
-//         },
-//       ]);
-//     } catch (err) {
-//       console.log("deleteNexus error =>", err);
-//       Alert.alert("Error", err.message || "Network error while deleting.");
-//     } finally {
-//       setDeleting(false);
-//     }
-//   };
-
-//   const handleDelete = () => {
-//     if (deleting) return;
-
-//     Alert.alert("Confirm Delete", "Delete this Nexus permanently?", [
-//       { text: "Cancel", style: "cancel" },
-//       { text: "Delete", style: "destructive", onPress: deleteNexusFromServer },
-//     ]);
-//   };
-
-//   const chooseInactiveSpace = () => {
-//     Alert.alert("Inactive Space", "Choose option", [
-//       { text: "No Inactive Space", onPress: () => setInactiveSpace("No Inactive Space") },
-//       { text: "Archive After 7 Days", onPress: () => setInactiveSpace("Archive After 7 Days") },
-//       { text: "Cancel", style: "cancel" },
-//     ]);
-//   };
-
-//   const chooseTimeout = () =>
-//     Alert.alert("Timeout", "Choose timeout", [
-//       { text: "5 minutes", onPress: () => setTimeoutValue("5 minutes") },
-//       { text: "15 minutes", onPress: () => setTimeoutValue("15 minutes") },
-//       { text: "30 minutes", onPress: () => setTimeoutValue("30 minutes") },
-//       { text: "Cancel", style: "cancel" },
-//     ]);
-
-//   const chooseSystemSpace = () =>
-//     Alert.alert("System Space", "Choose space", [
-//       { text: "General", onPress: () => setSystemSpace("General") },
-//       { text: "Announcements", onPress: () => setSystemSpace("Announcements") },
-//       { text: "Cancel", style: "cancel" },
-//     ]);
-
-//   return (
-//     <View style={styles.container}>
-//       <StatusBar barStyle="light-content" />
-
-//       <ScrollView
-//         style={{ flex: 1 }}
-//         contentContainerStyle={styles.scrollContent}
-//         showsVerticalScrollIndicator={false}
-//       >
-//         {/* Header */}
-//         <View style={styles.headerRow}>
-//           <TouchableOpacity onPress={handleBack}>
-//             <Ionicons name="chevron-back" size={24} color="#ffffff" />
-//           </TouchableOpacity>
-
-//           <View style={styles.headerCenter}>
-//             <Text style={styles.headerTitle}>Nexus Overview</Text>
-//             <Text style={styles.headerSubtitle}>Settings for this Nexus only</Text>
-//           </View>
-
-//           <View style={{ width: 24 }} />
-//         </View>
-
-//         {/* Nexus Name */}
-//         <View style={styles.section}>
-//           <Text style={styles.label}>Nexus name</Text>
-//           <View style={styles.inputWrapper}>
-//             <TextInput
-//               style={styles.input}
-//               value={nexusName}
-//               onChangeText={setNexusName}
-//               placeholder="Enter nexus name"
-//               placeholderTextColor="rgba(255,255,255,0.5)"
-//             />
-//           </View>
-//         </View>
-
-//         {/* --- (KEEP REST OF YOUR UI SAME) --- */}
-
-//         {/* DELETE button */}
-//         <TouchableOpacity
-//           style={styles.deleteButton}
-//           onPress={handleDelete}
-//           disabled={deleting}
-//         >
-//           <Ionicons name="trash-outline" size={18} color="#FF6B6B" />
-//           <Text style={styles.deleteButtonText}>
-//             {deleting ? "Deleting..." : "Delete Nexus"}
-//           </Text>
-//         </TouchableOpacity>
-
-//         {/* Save */}
-//         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-//           <Text style={styles.saveButtonText}>Save</Text>
-//         </TouchableOpacity>
-
-//         <TouchableOpacity onPress={handleReset} style={{ marginTop: 10 }}>
-//           <Text style={styles.resetText}>Reset to Default</Text>
-//         </TouchableOpacity>
-//       </ScrollView>
-//     </View>
-//   );
-// }
-
-// const CARD_RADIUS = 22;
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1, backgroundColor: "#050B18" },
-//   scrollContent: { paddingBottom: 32, paddingHorizontal: 20 },
-//   headerRow: { marginTop: 12, flexDirection: "row", alignItems: "center", marginBottom: 20 },
-//   headerCenter: { flex: 1, alignItems: "center" },
-//   headerTitle: { color: "#fff", fontSize: 18, fontWeight: "600" },
-//   headerSubtitle: { color: "rgba(255,255,255,0.7)", fontSize: 11 },
-//   section: { marginBottom: 16 },
-//   label: { color: "#fff", fontSize: 13, marginBottom: 10 },
-//   inputWrapper: {
-//     borderRadius: 20,
-//     backgroundColor: "#0B1730",
-//     borderWidth: 1,
-//     borderColor: "#2D57C8",
-//   },
-//   input: { height: 50, paddingHorizontal: 16, color: "#fff" },
-//   deleteButton: {
-//     marginTop: 24,
-//     alignSelf: "center",
-//     width: width * 0.75,
-//     height: 48,
-//     borderRadius: 24,
-//     borderWidth: 1,
-//     borderColor: "#FF4B4B",
-//     backgroundColor: "rgba(255, 40, 40, 0.1)",
-//     flexDirection: "row",
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-//   deleteButtonText: { color: "#FF6B6B", marginLeft: 8, fontSize: 14 },
-//   saveButton: {
-//     marginTop: 18,
-//     alignSelf: "center",
-//     width: width * 0.5,
-//     height: 50,
-//     borderRadius: 25,
-//     backgroundColor: "#3255BA",
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-//   saveButtonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
-//   resetText: { color: "#9FB4FF", textAlign: "center", marginTop: 10 },
-// });
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
+  StatusBar,
   Dimensions,
-  Platform,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'; // if you're using bare RN, use 'react-native-linear-gradient'
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Switch,
+  Alert,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
-function SectionCard({ title, children }){
-  return (
-    <View style={styles.cardWrapper}>
-      <View style={styles.cardHeaderContainer}>
-        <View style={styles.cardHeaderNotch} />
-        <Text style={styles.cardHeader}>{title}</Text>
-      </View>
-      <View style={styles.cardBody}>{children}</View>
-    </View>
-  )
-}
+const API_BASE_URL = "http://192.168.1.5:3000/api/nexus";
 
-export default function NexusOverviewScreen(){
-  const [name, setName] = useState('Shusshi Clean');
-  const [joinMessage, setJoinMessage] = useState(true);
+export default function Nexus_Overview({ navigation, route }) {
+  const nexusId = route?.params?.nexusId;
+  const initialName = route?.params?.nexusName || "Shusshi Clean";
+
+  const [nexusName, setNexusName] = useState(initialName);
+  const [inactiveSpace, setInactiveSpace] = useState("No Inactive Space");
+  const [timeoutValue, setTimeoutValue] = useState("5 minutes");
+  const [systemSpace, setSystemSpace] = useState("General");
+  const [joinMessageEnabled, setJoinMessageEnabled] = useState(true);
+
   const [showJoinLeave, setShowJoinLeave] = useState(true);
   const [showRoleChanges, setShowRoleChanges] = useState(true);
-  const [showNameChanges, setShowNameChanges] = useState(true);
+  const [showUsernameChanges, setShowUsernameChanges] = useState(true);
 
-  const Toggle = ({ value, onValueChange }) => (
-    <TouchableOpacity
-      activeOpacity={0.85}
-      onPress={() => onValueChange(!value)}
-      style={[styles.toggleOuter, value && styles.toggleOuterOn]}
-    >
-      <View style={[styles.toggleCircle, value && styles.toggleCircleOn]} />
-    </TouchableOpacity>
-  );
+  const [deleting, setDeleting] = useState(false);
+
+  const handleBack = () => navigation.goBack();
+
+  const handleSave = () => {
+    Alert.alert("Saved", "Settings saved successfully.");
+  };
+
+  const handleReset = () => {
+    setNexusName(initialName);
+    setInactiveSpace("No Inactive Space");
+    setTimeoutValue("5 minutes");
+    setSystemSpace("General");
+    setJoinMessageEnabled(true);
+    setShowJoinLeave(true);
+    setShowRoleChanges(true);
+    setShowUsernameChanges(true);
+    Alert.alert("Reset", "Defaults restored.");
+  };
+
+  const deleteNexusFromServer = async () => {
+    if (!nexusId) return Alert.alert("Error", "Missing Nexus ID");
+
+    try {
+      setDeleting(true);
+
+      const res = await fetch(`${API_BASE_URL}/${nexusId}`, { method: "DELETE" });
+      const json = await res.json();
+
+      if (!json.success) {
+        Alert.alert("Error", json.message || "Delete failed");
+        return;
+      }
+
+      Alert.alert("Deleted", "Nexus deleted", [{ text: "OK", onPress: () => navigation.goBack() }]);
+    } catch (e) {
+      Alert.alert("Network Error", "Could not delete Nexus.");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const selectOption = (title, setter, values) => {
+    Alert.alert(
+      title,
+      "",
+      values.map((v) => ({
+        text: v,
+        onPress: () => setter(v),
+      }))
+    );
+  };
 
   return (
-    <LinearGradient
-      colors={["#071126", "#020616"]}
-      style={styles.container}
-    >
-      <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.screenTitle}>Nexus Overview</Text>
-        <Text style={styles.screenSubtitle}>Settings for this Nexus only.</Text>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-light-content" />
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Nexus name</Text>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            style={styles.input}
-            placeholder="Enter nexus name"
-            placeholderTextColor={'rgba(255,255,255,0.25)'}
-          />
+      <ScrollView
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ padding: 18, paddingBottom: 40 }}
+      >
+        {/* Header */}
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={handleBack}>
+            <Ionicons name="chevron-back" size={28} color="#fff" />
+          </TouchableOpacity>
+
+          <View style={styles.headerCenter}>
+            <Text style={styles.headerTitle}>Nexus Overview</Text>
+            <Text style={styles.headerSubtitle}>Settings for this Nexus only.</Text>
+          </View>
+
+          <View style={{ width: 28 }} />
         </View>
 
-        <SectionCard title="Inactive Settings">
-          <View style={styles.rowBetween}>
-            <Text style={styles.fieldLabel}>Inactive Space</Text>
-            <Text style={styles.fieldValue}>No Inactive Space ▾</Text>
-          </View>
-          <View style={styles.rowBetween}> 
-            <Text style={styles.fieldLabel}>Timeout</Text>
-            <Text style={styles.fieldValue}>5 minutes ▾</Text>
-          </View>
-        </SectionCard>
+        {/* Section: Nexus Name */}
+        <View style={styles.sectionWrapper}>
+          <Text style={styles.sectionLabel}>Nexus name</Text>
 
-        <SectionCard title="System & Community Signals">
-          <View style={styles.rowBetween}>
-            <Text style={styles.fieldLabel}>System Space</Text>
-            <Text style={styles.fieldValue}>General ▾</Text>
+          <View style={styles.inputWrapper}>
+            <TextInput
+              value={nexusName}
+              onChangeText={setNexusName}
+              placeholder="Enter Nexus name"
+              placeholderTextColor="rgba(255,255,255,0.4)"
+              style={styles.input}
+            />
           </View>
-          <View style={[styles.rowBetween, {marginTop:14}]}> 
-            <Text style={styles.fieldLabel}>Join Message</Text>
-            <Toggle value={joinMessage} onValueChange={setJoinMessage} />
-          </View>
-        </SectionCard>
+        </View>
 
-        <SectionCard title="Member Visibility & History">
-          <View style={styles.rowBetweenWithPadding}>
-            <Text style={styles.fieldLabel}>Show join/leave events</Text>
-            <Toggle value={showJoinLeave} onValueChange={setShowJoinLeave} />
-          </View>
-          <View style={styles.rowBetweenWithPadding}> 
-            <Text style={styles.fieldLabel}>Show role changes</Text>
-            <Toggle value={showRoleChanges} onValueChange={setShowRoleChanges} />
-          </View>
-          <View style={styles.rowBetweenWithPadding}> 
-            <Text style={styles.fieldLabel}>Show username changes</Text>
-            <Toggle value={showNameChanges} onValueChange={setShowNameChanges} />
-          </View>
-        </SectionCard>
+        {/* ---- Inactive Settings ---- */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Inactive Settings</Text>
 
-        <Text style={styles.smallNote}>Changes apply only to this Nexus.</Text>
+          <TouchableOpacity
+            style={styles.rowItem}
+            onPress={() =>
+              selectOption("Inactive Space", setInactiveSpace, [
+                "No Inactive Space",
+                "Archive After 7 Days",
+              ])
+            }
+          >
+            <Text style={styles.rowLabel}>Inactive Space</Text>
+            <View style={styles.rowRight}>
+              <Text style={styles.rowValue}>{inactiveSpace}</Text>
+              <Ionicons name="chevron-forward" size={18} color="#8892B0" />
+            </View>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.deleteButton} activeOpacity={0.85}>
-          <View style={styles.deleteInner}>
-            <Text style={styles.deleteText}>🗑️  Delete Nexus</Text>
+          <TouchableOpacity
+            style={styles.rowItem}
+            onPress={() =>
+              selectOption("Timeout", setTimeoutValue, ["5 minutes", "15 minutes", "30 minutes"])
+            }
+          >
+            <Text style={styles.rowLabel}>Timeout</Text>
+            <View style={styles.rowRight}>
+              <Text style={styles.rowValue}>{timeoutValue}</Text>
+              <Ionicons name="chevron-forward" size={18} color="#8892B0" />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* ---- System Signals ---- */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>System & Community Signals</Text>
+
+          <TouchableOpacity
+            style={styles.rowItem}
+            onPress={() => selectOption("System Space", setSystemSpace, ["General", "Announcements"])}
+          >
+            <Text style={styles.rowLabel}>System Space</Text>
+            <View style={styles.rowRight}>
+              <Text style={styles.rowValue}>{systemSpace}</Text>
+              <Ionicons name="chevron-forward" size={18} color="#8892B0" />
+            </View>
+          </TouchableOpacity>
+
+          <View style={styles.rowItem}>
+            <Text style={styles.rowLabel}>Join Message</Text>
+            <Switch
+              value={joinMessageEnabled}
+              onValueChange={setJoinMessageEnabled}
+              trackColor={{ false: "#1E293B", true: "#4479FF" }}
+              thumbColor="#fff"
+            />
           </View>
+        </View>
+
+        {/* ---- Member Visibility ---- */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Member Visibility & History</Text>
+
+          <View style={styles.rowItem}>
+            <Text style={styles.rowLabel}>Show join/leave events</Text>
+            <Switch
+              value={showJoinLeave}
+              onValueChange={setShowJoinLeave}
+              trackColor={{ false: "#1E293B", true: "#4479FF" }}
+              thumbColor="#fff"
+            />
+          </View>
+
+          <View style={styles.rowItem}>
+            <Text style={styles.rowLabel}>Show role changes</Text>
+            <Switch
+              value={showRoleChanges}
+              onValueChange={setShowRoleChanges}
+              trackColor={{ false: "#1E293B", true: "#4479FF" }}
+              thumbColor="#fff"
+            />
+          </View>
+
+          <View style={styles.rowItem}>
+            <Text style={styles.rowLabel}>Show username changes</Text>
+            <Switch
+              value={showUsernameChanges}
+              onValueChange={setShowUsernameChanges}
+              trackColor={{ false: "#1E293B", true: "#4479FF" }}
+              thumbColor="#fff"
+            />
+          </View>
+
+          <Text style={styles.footerNote}>Changes apply only to this Nexus.</Text>
+        </View>
+
+        {/* ---- Delete ---- */}
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={deleteNexusFromServer}
+          disabled={deleting}
+        >
+          <Ionicons name="trash-outline" size={18} color="#FF7777" />
+          <Text style={styles.deleteText}>{deleting ? "Deleting..." : "Delete Nexus"}</Text>
         </TouchableOpacity>
 
-        <LinearGradient
-          colors={["#0b3a78", "#10183a"]}
-          start={[0,0]}
-          end={[1,1]}
-          style={styles.saveBtnGradient}
-        >
-          <TouchableOpacity style={styles.saveBtnTouchable} activeOpacity={0.85}>
-            <Text style={styles.saveBtnText}>Save</Text>
-          </TouchableOpacity>
-        </LinearGradient>
+        {/* Save Button */}
+        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+          <Text style={styles.saveLabel}>Save</Text>
+        </TouchableOpacity>
 
-        <Text style={styles.resetText}>Reset to Default</Text>
-
+        <TouchableOpacity onPress={handleReset}>
+          <Text style={styles.resetText}>Reset to Default</Text>
+        </TouchableOpacity>
       </ScrollView>
-    </LinearGradient>
-  )
+    </View>
+  );
 }
 
+const CARD_RADIUS = 22;
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Platform.OS === 'android' ? 28 : 48,
-  },
-  scroll: {
-    paddingHorizontal: 18,
-    paddingBottom: 48,
-  },
-  screenTitle: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '700',
-    textAlign: 'center'
-  },
-  screenSubtitle: {
-    color: 'rgba(255,255,255,0.35)',
-    fontSize: 12,
-    textAlign: 'center',
-    marginBottom: 18,
-  },
-  inputContainer:{
-    marginBottom: 18,
-  },
-  label:{
-    color: 'rgba(255,255,255,0.6)',
-    marginBottom: 8,
-  },
-  input:{
-    height: 44,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(94,137,255,0.22)',
-    paddingHorizontal: 14,
-    color: '#fff',
-    backgroundColor: 'rgba(255,255,255,0.01)'
-  },
-  cardWrapper:{
-    marginBottom: 16,
-    borderRadius: 12,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(89,133,255,0.18)',
-    backgroundColor: 'rgba(255,255,255,0.01)'
-  },
-  cardHeaderContainer:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 12,
-    paddingLeft: 12,
-  },
-  cardHeaderNotch:{
-    width: 72,
-    height: 18,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    backgroundColor: 'rgba(9,26,54,0.3)',
-    borderWidth: 1,
-    borderColor: 'rgba(89,133,255,0.07)',
-    marginRight: 10,
-  },
-  cardHeader:{
-    color: 'rgba(255,255,255,0.85)',
-    fontWeight: '600',
-  },
-  cardBody:{
-    padding: 14,
-    paddingTop: 6,
-  },
-  rowBetween:{
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 8,
-    borderBottomColor: 'rgba(255,255,255,0.02)'
-  },
-  rowBetweenWithPadding:{
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-  },
-  fieldLabel:{
-    color: 'rgba(255,255,255,0.75)'
-  },
-  fieldValue:{
-    color: 'rgba(255,255,255,0.55)'
-  },
-  smallNote:{
-    color: 'rgba(255,255,255,0.22)',
-    fontSize: 12,
-    textAlign: 'center',
-    marginVertical: 12,
+  container: { flex: 1, backgroundColor: "#050B18" },
+
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 25,
+    marginTop: 50,
   },
 
-  deleteButton:{
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(255,70,70,0.25)',
-    marginBottom: 18,
-    overflow: 'hidden'
-  },
-  deleteInner:{
-    paddingVertical: 14,
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,70,70,0.03)'
-  },
-  deleteText:{
-    color: 'rgba(255,70,70,0.95)',
-    fontWeight: '600'
-  },
+  headerCenter: { flex: 1, alignItems: "center" },
+  headerTitle: { 
+    fontSize: 20, 
+    fontWeight: "600",
+     color: "#fff", 
+     marginBottom:5,
+     marginTop:10,
+    },
+  headerSubtitle: { 
+    fontSize: 11,
+     color: "rgba(255,255,255,0.6)" 
+    },
 
-  saveBtnGradient:{
-    alignSelf: 'center',
-    width: Math.min(320, width - 40),
-    borderRadius: 22,
-    padding: 2,
-    marginBottom: 8,
-  },
-  saveBtnTouchable:{
-    backgroundColor: 'transparent',
-    borderRadius: 20,
-    paddingVertical: 14,
-    alignItems: 'center',
-  },
-  saveBtnText:{
-    color: '#fff',
-    fontWeight: '700'
-  },
-  resetText:{
-    textAlign: 'center',
-    color: 'rgba(255,255,255,0.28)',
-    marginTop: 6,
-  },
+  sectionWrapper: { marginBottom: 20 },
+  sectionLabel: { color: "#fff", fontSize: 14, marginBottom: 8 },
 
-  toggleOuter:{
-    width: 44,
-    height: 26,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    justifyContent: 'center',
-    padding: 3,
-  },
-  toggleOuterOn:{
-    backgroundColor: 'rgba(102, 170, 255, 0.18)',
-  },
-  toggleCircle:{
-    width: 18,
-    height: 18,
+  inputWrapper: {
+    backgroundColor: "#3154BA",
     borderRadius: 18,
-    backgroundColor: 'rgba(255,255,255,0.18)',
-    alignSelf: 'flex-start'
+    borderWidth: 1,
+    borderColor: "#3154BA",
   },
-  toggleCircleOn:{
-    alignSelf: 'flex-end',
-    backgroundColor: '#8be1ff'
-  }
+  input: {
+     height: 50,
+      color: "#fff",
+       paddingHorizontal: 16
+       },
+
+  card: {
+  backgroundColor: "#071224",
+  borderRadius: 15,
+  padding: 18,
+  marginBottom: 20,
+  borderWidth: 1,
+  borderColor: "#3154BA",
+
+  // ⭐ Shadow for iOS
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.25,
+  shadowRadius: 10,
+
+  // ⭐ Shadow for Android
+  elevation: 8,
+},
+
+
+  cardTitle: {
+    color: "#E2E8F0",
+    fontSize: 14,
+    marginBottom: 12,
+    fontWeight: "600",
+  },
+
+  rowItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+
+  rowLabel: { color: "#CBD5E1", fontSize: 13 },
+  rowRight: { flexDirection: "row", alignItems: "center", gap: 8 },
+  rowValue: { color: "#94A3B8", fontSize: 13 },
+
+  footerNote: {
+    color: "#64748B",
+    fontSize: 11,
+    marginTop: 10,
+    textAlign: "right",
+  },
+
+  deleteButton: {
+    width: "100%",
+    alignSelf: "center",
+    height: 48,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: "#FF5555",
+    backgroundColor: "#FF3B3029",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+
+  deleteText: { marginLeft: 8, color: "#FF7777", fontSize: 14 },
+
+  saveButton: {
+  width: 142,
+  height: 50,
+  borderRadius: 15,
+  borderColor: "#3154BA",
+  backgroundColor: "#0C142A",
+  justifyContent: "center",
+  alignItems: "center",
+  alignSelf: "center",
+  marginBottom: 12,
+   borderWidth: 1,
+
+  // ⭐ iOS Shadow
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.25,
+  shadowRadius: 10,
+
+  // ⭐ Android Shadow
+  elevation: 8,
+},
+
+  saveLabel: { color: "#fff", fontSize: 16, fontWeight: "600" },
+
+  resetText: {
+    color: "#ffffff",
+    textAlign: "center",
+    marginTop: 6,
+    fontSize: 13,
+  },
 });
