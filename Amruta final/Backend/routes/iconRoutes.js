@@ -1,22 +1,26 @@
-// Backend/routes/iconRoutes.js
-const express = require('express');
-const router = express.Router();
-const iconCtrl = require('../controllers/iconController');
-const auth = require('../middleware/auth');
-const multer = require('multer');
-const path = require('path');
+import express from "express";
+import { listIcons, uploadIcon } from "../controllers/iconController.js";
+import auth from "../middleware/auth.js";
+import multer from "multer";
+import path from "path";
 
-// simple disk storage - adjust path where you store uploads
+const router = express.Router();
+
+// Storage Config
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) { cb(null, 'uploads/icons'); },
-  filename: function(req, file, cb) {
+  destination(req, file, cb) {
+    cb(null, "uploads/icons");
+  },
+  filename(req, file, cb) {
     const ext = path.extname(file.originalname);
-    cb(null, Date.now() + '-' + Math.round(Math.random()*1e9) + ext);
-  }
+    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`);
+  },
 });
+
 const upload = multer({ storage });
 
-router.get('/', iconCtrl.listIcons);               // GET /api/nexus/icons
-router.post('/upload', auth, upload.single('icon'), iconCtrl.uploadIcon); // POST /api/nexus/icons/upload
+// Routes
+router.get("/", listIcons);
+router.post("/upload", auth, upload.single("icon"), uploadIcon);
 
-module.exports = router;
+export default router;
