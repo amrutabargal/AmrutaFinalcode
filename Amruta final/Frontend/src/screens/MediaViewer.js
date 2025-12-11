@@ -204,7 +204,7 @@ export default function ChatScreen({ route, navigation }) {
       <StatusBar barStyle="light-content" />
 
       {/* Header */}
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation?.goBack()}>
           <Ionicons name="chevron-back" size={24} color="#BFD6FF" />
         </TouchableOpacity>
@@ -216,7 +216,26 @@ export default function ChatScreen({ route, navigation }) {
         <TouchableOpacity style={styles.searchBtn}>
           <Feather name="search" size={18} color="#ffffff" />
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <View style={styles.header}>
+  <TouchableOpacity onPress={() => navigation?.goBack()}>
+    <Ionicons name="chevron-back" size={24} color="#BFD6FF" />
+  </TouchableOpacity>
+
+  {/* CLICKABLE MEDIA -> v66 */}
+  <TouchableOpacity
+    style={styles.headerCenter}
+    activeOpacity={0.7}
+    onPress={() => navigation.navigate("Header_media", { channelName: channel })}
+  >
+    <Text style={styles.channelLabel}>{channel}</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity style={styles.searchBtn}>
+    <Feather name="search" size={18} color="#ffffff" />
+  </TouchableOpacity>
+</View>
+
 
       {/* Messages */}
       <ScrollView
@@ -498,6 +517,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(12),
     flexDirection: "row",
     alignItems: "center",
+    marginTop:50,
   },
   headerCenter: { flex: 1, alignItems: "center" },
   channelLabel: { color: "#9fb4ff", fontWeight: "700", fontSize: scale(16) },

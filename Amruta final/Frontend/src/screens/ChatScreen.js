@@ -302,13 +302,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
-    backgroundColor: "#020617",
+    backgroundColor: "#3154BA4D",
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: "#1E293B",
+    borderColor: "#3154BA",
     paddingHorizontal: 14,
     height: 40,
+   paddingHorizontal: 10,
+  paddingVertical: 8,
+
+  // Shadow for iOS
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+
+  // Shadow for Android
+  elevation: 5,
   },
+ 
+
   searchInput: {
     flex: 1,
     marginLeft: 8,
@@ -318,8 +331,8 @@ const styles = StyleSheet.create({
   },
   filterText: {
     marginLeft: 12,
-    color: "#64748B",
-    fontSize: 13,
+    color: "#3154BA",
+    fontSize: 14,
   },
 
   // LIST

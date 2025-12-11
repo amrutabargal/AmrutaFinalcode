@@ -392,6 +392,7 @@ import Done from '../screens/Done';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import Notification_popup from '../screens/Notification_popup';
 import ProfileScreen from '../screens/ProfileScreen';
+import Header_media from '../screens/Header_media';
 
 /* Footer Component */
 import Footer from '../components/Footer';
@@ -512,6 +513,8 @@ export default function RootNavigator() {
       <Stack.Screen name="FilterUser" component={FilterUser} />
       <Stack.Screen name="FilterAction" component={FilterAction} />
       <Stack.Screen name="MediaViewer" component={MediaViewer} />
+      <Stack.Screen name="Header_media" component={Header_media} />
+
       <Stack.Screen name="VoiceCall" component={VoiceCallScreen} />
       <Stack.Screen name="VideoCall" component={VideoCallScreen} />
       <Stack.Screen name="IncomingCall" component={IncomingCallScreen} />

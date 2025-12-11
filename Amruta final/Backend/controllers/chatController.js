@@ -1,4 +1,4 @@
-// Backend/controllers/chatController.js
+
 import * as chatModel from "../models/chatModel.js";
 
 /**
