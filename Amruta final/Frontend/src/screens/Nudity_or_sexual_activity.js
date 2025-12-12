@@ -1,4 +1,4 @@
-// // src/screens/Nudity_or_sexual_activity.js
+
 // import React, { useState } from "react";
 // import {
 //   View,
@@ -7,8 +7,13 @@
 //   SafeAreaView,
 //   TouchableOpacity,
 //   Pressable,
+//   Dimensions,
+//   StatusBar,
+//   Platform,
 // } from "react-native";
 // import { Ionicons } from "@expo/vector-icons";
+
+// const { width } = Dimensions.get("window");
 
 // const REASONS = [
 //   "Nudity or pornography",
@@ -26,41 +31,47 @@
 //       messageId: message?.id,
 //       reason: selectedReason,
 //     });
-//     navigation.goBack();
+
+//     // Navigate to Done screen after submitting
+//     navigation.navigate("Done", {
+//       messageId: message?.id,
+//       reason: selectedReason,
+//     });
 //   };
 
 //   return (
 //     <View style={styles.root}>
-//       {/* background overlay */}
+//       <StatusBar barStyle="light-content" backgroundColor="#06112A" />
+
+//       {/* Background Overlay */}
 //       <Pressable style={styles.overlay} onPress={() => navigation.goBack()} />
 
-//       {/* main card */}
+//       {/* Main Card */}
 //       <SafeAreaView style={styles.sheet}>
-//         {/* handle bar */}
-//         <View style={styles.handle} />
-
-//         {/* header */}
+//         {/* Header */}
 //         <View style={styles.headerRow}>
 //           <TouchableOpacity onPress={() => navigation.goBack()}>
-//             <Ionicons name="chevron-back" size={22} color="#E5E7EB" />
+//             <Ionicons name="chevron-back" size={24} color="#fff" />
 //           </TouchableOpacity>
 
 //           <View style={styles.headerCenter}>
-//             <Ionicons name="flag" size={16} color="#F97373" />
-//             <Text style={styles.headerTitle}>Report</Text>
+//             <Ionicons name="flag" size={16} color="red" />
+//             <Text style={styles.headerTitle}> Report</Text>
 //           </View>
 
-//           <View style={{ width: 22 }} />
+//           <View style={{ width: 24 }} />
 //         </View>
 
-//         {/* title + subtitle */}
+//         <View style={styles.divider} />
+
+//         {/* Title + Description */}
 //         <Text style={styles.title}>Which best describes this problem?</Text>
 //         <Text style={styles.subtitle}>
 //           Send recent messages from this conversation to ballastra for review.
 //           If someone is in immediate danger, call the local emergency services.
 //         </Text>
 
-//         {/* options */}
+//         {/* Options */}
 //         <View style={styles.listWrapper}>
 //           {REASONS.map((reason, index) => {
 //             const selected = reason === selectedReason;
@@ -71,22 +82,32 @@
 //                   styles.row,
 //                   index === REASONS.length - 1 && { borderBottomWidth: 0 },
 //                 ]}
-//                 activeOpacity={0.7}
+//                 activeOpacity={0.8}
 //                 onPress={() => setSelectedReason(reason)}
 //               >
 //                 <Text style={styles.rowText}>{reason}</Text>
-//                 <View style={styles.checkboxOuter}>
-//                   {selected && <View style={styles.checkboxInner} />}
+
+//                 <View
+//                   style={[
+//                     styles.checkboxOuter,
+//                     selected && styles.checkboxSelected,
+//                   ]}
+//                 >
+//                   {selected && (
+//                     <Ionicons name="checkmark" size={14} color="#00C2FF" />
+//                   )}
 //                 </View>
 //               </TouchableOpacity>
 //             );
 //           })}
 //         </View>
 
-//         {/* submit button */}
-//         <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
-//           <Text style={styles.submitText}>Submit report</Text>
-//         </TouchableOpacity>
+//         {/* Submit Button */}
+//         <View style={styles.buttonWrap}>
+//           <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
+//             <Text style={styles.submitText}>Submit report</Text>
+//           </TouchableOpacity>
+//         </View>
 //       </SafeAreaView>
 //     </View>
 //   );
@@ -98,114 +119,115 @@
 //     backgroundColor: "transparent",
 //     justifyContent: "flex-end",
 //   },
+
 //   overlay: {
 //     ...StyleSheet.absoluteFillObject,
-//     backgroundColor: "rgba(15,23,42,0.55)",
+//     backgroundColor: "rgba(10, 20, 40, 0.65)",
 //   },
+
 //   sheet: {
-//     marginHorizontal: 12,
-//     marginVertical: 26,
-//     borderRadius: 24,
-//     backgroundColor: "#020617",
-//     paddingTop: 6,
-//     paddingHorizontal: 18,
-//     paddingBottom: 24,
-//     elevation: 10,
-//     shadowColor: "#000",
-//     shadowOpacity: 0.45,
-//     shadowOffset: { width: 0, height: 8 },
-//     shadowRadius: 18,
-//   },
-//   handle: {
+//     width: "92%",
 //     alignSelf: "center",
-//     width: 42,
-//     height: 4,
-//     borderRadius: 2,
-//     backgroundColor: "#4B5563",
-//     marginBottom: 12,
+//     backgroundColor: "#06112A",
+//     borderRadius: 28,
+//     paddingHorizontal: 20,
+//     paddingTop: 8,
+//     paddingBottom: 22,
+//     marginBottom: Platform.OS === "ios" ? 20 : 10,
 //   },
 
 //   headerRow: {
 //     flexDirection: "row",
 //     alignItems: "center",
 //     justifyContent: "space-between",
-//     marginBottom: 14,
+//     paddingVertical: 12,
 //   },
+
 //   headerCenter: {
 //     flexDirection: "row",
 //     alignItems: "center",
 //   },
+
 //   headerTitle: {
-//     marginLeft: 6,
-//     color: "#F97373",
-//     fontSize: 18,
+//     color: "red",
+//     fontSize: 15,
 //     fontWeight: "600",
 //   },
 
+//   divider: {
+//     height: 1,
+//     backgroundColor: "#1E335C",
+//     marginBottom: 14,
+//   },
+
 //   title: {
-//     color: "#F9FAFB",
-//     fontSize: 16,
+//     color: "#fff",
+//     fontSize: 15,
 //     fontWeight: "600",
 //     marginBottom: 6,
 //   },
+
 //   subtitle: {
-//     color: "#9CA3AF",
+//     color: "#B6C2D3",
 //     fontSize: 12,
+//     lineHeight: 18,
 //     marginBottom: 16,
 //   },
 
 //   listWrapper: {
-//     borderRadius: 18,
-//     overflow: "hidden",
-//     borderTopWidth: StyleSheet.hairlineWidth,
-//     borderTopColor: "#111827",
+//     marginTop: 4,
 //   },
+
 //   row: {
 //     flexDirection: "row",
-//     alignItems: "center",
 //     justifyContent: "space-between",
-//     paddingVertical: 12,
-//     borderBottomWidth: StyleSheet.hairlineWidth,
-//     borderBottomColor: "#111827",
+//     alignItems: "center",
+//     paddingVertical: 14,
+//     borderBottomWidth: 1,
+//     borderBottomColor: "#1E335C",
 //   },
+
 //   rowText: {
-//     flex: 1,
-//     color: "#E5E7EB",
+//     color: "#fff",
 //     fontSize: 14,
+//     flex: 1,
 //   },
 
 //   checkboxOuter: {
 //     width: 22,
 //     height: 22,
 //     borderRadius: 6,
-//     borderWidth: 1.5,
-//     borderColor: "#6366F1",
+//     borderWidth: 1.4,
+//     borderColor: "#2E5BFF",
 //     alignItems: "center",
 //     justifyContent: "center",
-//     marginLeft: 14,
+//     marginLeft: 10,
 //   },
-//   checkboxInner: {
-//     width: 13,
-//     height: 13,
-//     borderRadius: 4,
-//     backgroundColor: "#6366F1",
+
+//   checkboxSelected: {
+//     backgroundColor: "rgba(46, 91, 255, 0.15)",
+//   },
+
+//   buttonWrap: {
+//     alignItems: "center",
+//     marginTop: 24,
 //   },
 
 //   submitBtn: {
-//     marginTop: 24,
-//     alignSelf: "center",
-//     paddingHorizontal: 40,
-//     paddingVertical: 12,
-//     borderRadius: 999,
-//     backgroundColor: "#2563EB",
+//     width: width * 0.55,
+//     height: 44,
+//     backgroundColor: "#2E5BFF",
+//     borderRadius: 16,
+//     justifyContent: "center",
+//     alignItems: "center",
 //   },
+
 //   submitText: {
-//     color: "#F9FAFB",
-//     fontSize: 15,
+//     color: "#fff",
+//     fontSize: 14,
 //     fontWeight: "600",
 //   },
 // });
-// src/screens/Nudity_or_sexual_activity.js
 import React, { useState } from "react";
 import {
   View,
@@ -234,12 +256,6 @@ export default function Nudity_or_sexual_activity({ navigation, route }) {
   const [selectedReason, setSelectedReason] = useState(REASONS[0]);
 
   const handleSubmit = () => {
-    console.log("REPORT (nudity flow):", {
-      messageId: message?.id,
-      reason: selectedReason,
-    });
-
-    // Navigate to Done screen after submitting
     navigation.navigate("Done", {
       messageId: message?.id,
       reason: selectedReason,
@@ -248,61 +264,73 @@ export default function Nudity_or_sexual_activity({ navigation, route }) {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor="#06112A" />
+      <StatusBar barStyle="light-content" backgroundColor="rgba(0,0,0,0.2)" />
 
       {/* Background Overlay */}
       <Pressable style={styles.overlay} onPress={() => navigation.goBack()} />
 
-      {/* Main Card */}
+      {/* Main Floating Sheet */}
       <SafeAreaView style={styles.sheet}>
-        {/* Header */}
+        {/* Handle bar */}
+        <View style={styles.handle} />
+
+        {/* Header row */}
         <View style={styles.headerRow}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back" size={24} color="#fff" />
+            <Ionicons name="chevron-back" size={22} color="#E5E7EB" />
           </TouchableOpacity>
 
           <View style={styles.headerCenter}>
-            <Ionicons name="flag" size={16} color="red" />
+            <Ionicons name="flag" size={16} color="#EF4444" />
             <Text style={styles.headerTitle}> Report</Text>
           </View>
 
           <View style={{ width: 24 }} />
         </View>
 
-        <View style={styles.divider} />
+        <View style={styles.line} />
 
-        {/* Title + Description */}
+        {/* Title + Subtitle */}
         <Text style={styles.title}>Which best describes this problem?</Text>
+
         <Text style={styles.subtitle}>
-          Send recent messages from this conversation to ballastra for review.
-          If someone is in immediate danger, call the local emergency services.
+          Send recent messages to Ballastra for review. For immediate danger,
+          contact emergency services.
         </Text>
 
-        {/* Options */}
-        <View style={styles.listWrapper}>
+        {/* Options list */}
+        <View style={{ marginTop: 4 }}>
           {REASONS.map((reason, index) => {
             const selected = reason === selectedReason;
             return (
               <TouchableOpacity
                 key={reason}
-                style={[
-                  styles.row,
-                  index === REASONS.length - 1 && { borderBottomWidth: 0 },
-                ]}
                 activeOpacity={0.8}
                 onPress={() => setSelectedReason(reason)}
               >
-                <Text style={styles.rowText}>{reason}</Text>
-
                 <View
                   style={[
-                    styles.checkboxOuter,
-                    selected && styles.checkboxSelected,
+                    styles.row,
+                    index === REASONS.length - 1 && { borderBottomWidth: 0 },
                   ]}
                 >
-                  {selected && (
-                    <Ionicons name="checkmark" size={14} color="#00C2FF" />
-                  )}
+                  <Text style={styles.rowText}>{reason}</Text>
+
+                  <View
+                    style={[
+                      styles.checkbox,
+                      selected && styles.checkboxSelected,
+                    ]}
+                  >
+                    {selected && (
+                      <Ionicons
+                        name="checkmark"
+                        size={14}
+                        color="#3BA0FF"
+                        style={{ marginTop: 1 }}
+                      />
+                    )}
+                  </View>
                 </View>
               </TouchableOpacity>
             );
@@ -310,9 +338,13 @@ export default function Nudity_or_sexual_activity({ navigation, route }) {
         </View>
 
         {/* Submit Button */}
-        <View style={styles.buttonWrap}>
-          <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
-            <Text style={styles.submitText}>Submit report</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.submitButton}
+            activeOpacity={0.8}
+            onPress={handleSubmit}
+          >
+            <Text style={styles.submitButtonText}>Submit report</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -323,31 +355,47 @@ export default function Nudity_or_sexual_activity({ navigation, route }) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "transparent",
     justifyContent: "flex-end",
   },
 
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(10, 20, 40, 0.65)",
+    backgroundColor: "06112A",
   },
 
   sheet: {
     width: "92%",
     alignSelf: "center",
-    backgroundColor: "#06112A",
+    backgroundColor: "#051028",
     borderRadius: 28,
-    paddingHorizontal: 20,
-    paddingTop: 8,
-    paddingBottom: 22,
-    marginBottom: Platform.OS === "ios" ? 20 : 10,
+    paddingHorizontal: 15,
+    paddingBottom: 24,
+    paddingTop: 4,
+    marginBottom: 18,
+    height:750,
+     shadowColor: "#3154BA",
+    borderWidth:1,
+    borderColor:"#3154BA",
+    shadowOpacity: 0.45,
+    shadowOffset: { width: 0, height: 8 },
+    shadowRadius: 20,
+    elevation: 12,
+  },
+
+  handle: {
+    width: 42,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "#4B5563",
+    alignSelf: "center",
+    marginVertical: 10,
   },
 
   headerRow: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 12,
+    alignItems: "center",
+    paddingVertical: 10,
   },
 
   headerCenter: {
@@ -356,33 +404,29 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: "red",
-    fontSize: 15,
+    color: "#EF4444",
+    fontSize: 16,
     fontWeight: "600",
   },
 
-  divider: {
+  line: {
     height: 1,
     backgroundColor: "#1E335C",
-    marginBottom: 14,
+    marginBottom: 16,
   },
 
   title: {
-    color: "#fff",
-    fontSize: 15,
+    color: "#FFFFFF",
+    fontSize: 16,
     fontWeight: "600",
     marginBottom: 6,
   },
 
   subtitle: {
-    color: "#B6C2D3",
+    color: "#AAB8CF",
     fontSize: 12,
     lineHeight: 18,
     marginBottom: 16,
-  },
-
-  listWrapper: {
-    marginTop: 4,
   },
 
   row: {
@@ -395,42 +439,51 @@ const styles = StyleSheet.create({
   },
 
   rowText: {
-    color: "#fff",
-    fontSize: 14,
     flex: 1,
+    color: "#FFFFFF",
+    fontSize: 14,
   },
 
-  checkboxOuter: {
-    width: 22,
-    height: 22,
+  checkbox: {
+    width: 20,
+    height: 20,
     borderRadius: 6,
     borderWidth: 1.4,
-    borderColor: "#2E5BFF",
-    alignItems: "center",
+    borderColor: "#3B82F6",
     justifyContent: "center",
-    marginLeft: 10,
+    alignItems: "center",
   },
 
   checkboxSelected: {
-    backgroundColor: "rgba(46, 91, 255, 0.15)",
+    backgroundColor: "rgba(59,130,246,0.15)",
   },
 
-  buttonWrap: {
+  buttonContainer: {
     alignItems: "center",
-    marginTop: 24,
+    marginTop: 26,
   },
 
-  submitBtn: {
-    width: width * 0.55,
+  submitButton: {
+   width: width * 0.6,
     height: 44,
-    backgroundColor: "#2E5BFF",
-    borderRadius: 16,
+    backgroundColor: "#06112A",
+    borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
+    height:52,
+    width:134,
+     shadowColor: "#3154BA",
+    borderWidth:1,
+    borderColor:"#3154BA",
+    shadowOpacity: 0.45,
+    shadowOffset: { width: 0, height: 8 },
+    shadowRadius: 20,
+    elevation: 12,
+    marginTop:300,
   },
 
-  submitText: {
-    color: "#fff",
+  submitButtonText: {
+    color: "#FFFFFF",
     fontSize: 14,
     fontWeight: "600",
   },

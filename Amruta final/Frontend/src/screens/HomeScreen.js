@@ -90,7 +90,7 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
         style={styles.cardWrapper}
         activeOpacity={0.8}
-        onPress={() => navigation?.navigate("Channel", { communityId: item.id })}
+        onPress={() => navigation?.navigate("", { communityId: item.id })}//add screenr click on card
       >
         <ImageBackground
           source={{ uri: item.image }}
