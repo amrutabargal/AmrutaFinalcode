@@ -29,17 +29,17 @@ export default function NexusTypeScreen({ navigation }) {
 
       {/* Options */}
       <View style={{ marginTop: 20 }}>
-        
-        <TouchableOpacity 
-          style={styles.option} 
+
+        <TouchableOpacity
+          style={styles.option}
           onPress={() => navigation.navigate("Build_Your_Nexus")}
         >
           <Image source={SingleStar} style={styles.icon} />
           <Text style={styles.optionText}>For me and my orbit circle</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.option} 
+        <TouchableOpacity
+          style={styles.option}
           onPress={() => navigation.navigate("Build_Your_Nexus")}
         >
           <Image source={Stars} style={styles.icon} />
@@ -49,8 +49,8 @@ export default function NexusTypeScreen({ navigation }) {
       </View>
 
       {/* Skip */}
-      <TouchableOpacity 
-        style={{ marginTop: 40 }} 
+      <TouchableOpacity
+        style={{ marginTop: 40 }}
         onPress={() => navigation.navigate("Build_Your_Nexus")}
       >
         <Text style={styles.skip}>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 80,
-    marginTop:20,
+    marginTop: 20,
   },
 
   title: {
@@ -106,6 +106,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+    height: 52,
+    borderWidth: 1,
+    borderColor: "#3154BA",
+
+    // ⭐ Shadow for iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+
+    // ⭐ Shadow for Android
+    elevation: 8,
   },
 
   optionText: {
