@@ -21,7 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 const { width } = Dimensions.get("window");
 
 // 🔗 BACKEND BASE URL – इथे बदल
-const API_BASE_URL = "http://192.168.1.5:5000/api";
+const API_BASE_URL = "http://192.168.1.5:3000";
 
 const VERIFICATION_OPTIONS = [
   { id: "none", label: "None", desc: "Unrestricted" },
