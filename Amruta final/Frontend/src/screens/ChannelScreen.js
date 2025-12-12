@@ -62,7 +62,10 @@ async function apiRequest(path, method = "GET", body = null, isForm = false) {
 // ----------------------------------------------------
 
 export default function ChatScreen({ route, navigation }) {
-  const { chatId } = route.params || {};
+  const params = route.params || {};
+  const initialChatId = params.chatId;
+  const contact = params.contact; // optional: when navigating from chat list
+  const [chatId, setChatId] = useState(initialChatId || null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -93,16 +96,32 @@ export default function ChatScreen({ route, navigation }) {
     })();
   }, []);
 
-  // fetch messages from REST
+  // fetch or create chat (if contact provided) then fetch messages
   useEffect(() => {
-    if (!chatId) return;
     let mounted = true;
-
     (async () => {
       try {
         setLoading(true);
-        const data = await apiRequest(`/messages/${chatId}`, "GET");
+
+        // if we don't have a chatId but have a contact, create a direct chat first
+        let effectiveChatId = chatId;
+        if (!effectiveChatId && contact) {
+          try {
+            const created = await apiRequest(`/api/chat`, "POST", { type: "direct", members: [contact.userId ?? contact.id] });
+            if (!mounted) return;
+            effectiveChatId = created?.id ?? created?.data?.id ?? created?.data;
+            if (effectiveChatId) setChatId(effectiveChatId);
+          } catch (e) {
+            console.warn("create direct chat failed:", e.message || e);
+            return;
+          }
+        }
+
+        if (!effectiveChatId) return;
+
+        const data = await apiRequest(`/messages/${effectiveChatId}`, "GET");
         if (!mounted) return;
+
         // normalize to our UI shape
         const mapped = (data || []).map((m) => ({
           id: m.id?.toString() ?? `${Date.now()}`,
@@ -126,7 +145,7 @@ export default function ChatScreen({ route, navigation }) {
     })();
 
     return () => { mounted = false; };
-  }, [chatId]);
+  }, [chatId, contact]);
 
   // socket connect & handlers
   useEffect(() => {
