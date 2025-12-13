@@ -11,6 +11,8 @@ import {
   Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BASE_URL } from "../config";
 
 // 👉 fallback static data (नेट नसेल / API fail झाला तर)
 const COMMUNITIES = [
@@ -70,11 +72,7 @@ export default function HomeScreen({ navigation }) {
       try {
         setLoading(true);
 
-        // 👇 इथे तुझा खरा backend URL टाक
-        // उदा: http://192.168.1.5:5000/api/public-nexus
-        const res = await fetch(
-          "http://192.168.1.5:3000/api/nexus/public"
-        );
+        const res = await fetch(`${BASE_URL}/api/nexus/public`);
 
         const json = await res.json();
 
@@ -108,6 +106,53 @@ export default function HomeScreen({ navigation }) {
     };
 
     fetchPublicNexus();
+  }, []);
+
+  // 🔥 NEW: fetch current user's nexus (/api/nexus/my) and merge
+  useEffect(() => {
+    const fetchMyNexus = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) return; // not logged in
+
+        const res = await fetch(`${BASE_URL}/api/nexus/my`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length) {
+          const mapped = json.data.map((item, index) => ({
+            id:
+              (item._id && item._id.toString()) ||
+              (item.id && item.id.toString()) ||
+              String(index),
+            name: item.name || "Untitled",
+            members: item.members || item.membersCount || 0,
+            type: item.type || "Community",
+            description: item.description || "",
+            description2: item.description2 || item.shortDescription || "",
+            image:
+              item.image ||
+              item.imageUrl ||
+              "https://images.pexels.com/photos/337909/pexels-photo-337909.jpeg?auto=compress&cs=tinysrgb&w=800",
+          }));
+
+          // merge preserving uniqueness by id, prefer user's nexus first
+          setCommunities((prev) => {
+            const byId = new Map();
+            mapped.forEach((m) => byId.set(m.id, m));
+            prev.forEach((p) => {
+              if (!byId.has(p.id)) byId.set(p.id, p);
+            });
+            return Array.from(byId.values());
+          });
+        }
+      } catch (err) {
+        console.log("fetchMyNexus error =>", err);
+      }
+    };
+
+    fetchMyNexus();
   }, []);
 
   // 🔍 search आता `communities` वर होईल (static नाही)
